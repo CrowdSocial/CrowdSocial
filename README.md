@@ -11,24 +11,24 @@ After the event is over, the event page will display the competition results and
 
 The following **required** functionality is completed:
 
-* [x] Allow App users to login/logout of the app. A user can be a person creating an event or participating in an event.
-* [x] App allows users to create an event.
-* [x] Allows users to add description of the event along with its rules/max number of people the event can accommodate/place and date of the event and the contribution amount every person has to pay if they participate in the event. It will also display the date when the event will be closed for participation.
-* [x] The event displays the current count of users agreed to participate in the event and the total $ amount committed for the event
-* [x] User creating an event is able to invite his/her friends by sharing the link of the event using sharing providers.
-* [x] Participating users are to login and participate in the event.
-* [x] When the event is over, the event owner can close the event on app and declare the winner.
+* [ ] Allow App users to login/logout of the app. A user can be a person creating an event or participating in an event.
+* [ ] App allows users to create an event.
+* [ ] Allows users to add description of the event along with its rules/max number of people the event can accommodate/place and date of the event and the contribution amount every person has to pay if they participate in the event. It will also display the date when the event will be closed for participation.
+* [ ] The event displays the current count of users agreed to participate in the event and the total $ amount committed for the event
+* [ ] User creating an event is able to invite his/her friends by sharing the link of the event using sharing providers.
+* [ ] Participating users are to login and participate in the event.
+* [ ] When the event is over, the event owner can close the event on app and declare the winner.
 
 
 The following **optional** features are implemented:
 
-* [x] App allows the event creating user to add images/media for event (e.g.: photo of a ping pong table), either by directly uploading or using camera.
-* [x] Participating users get an email confirmation when they participate in an event.
+* [ ] App allows the event creating user to add images/media for event (e.g.: photo of a ping pong table), either by directly uploading or using camera.
+* [ ] Participating users get an email confirmation when they participate in an event.
 
 The following **bonus** features are implemented:
 
-* [x] When any user opens the app, the user is able to see all events listed nearby his/her locality. This can be done by using map/location services. They can then select any event and participate.
-* [x] The app can be made as a record keeper(company) of the money exchanged for the event. Once the event is over, the app(company) will hand over/transfer money to the winners account. We can integrate with Paypal Sandbox and play with virtual money for the purpose of this project.
+vWhen any user opens the app, the user is able to see all events listed nearby his/her locality. This can be done by using map/location services. They can then select any event and participate.
+* [ ] The app can be made as a record keeper(company) of the money exchanged for the event. Once the event is over, the app(company) will hand over/transfer money to the winners account. We can integrate with Paypal Sandbox and play with virtual money for the purpose of this project.
 
 
 ## License
