@@ -27,7 +27,7 @@ The following **optional** features are implemented:
 
 The following **bonus** features are implemented:
 
-vWhen any user opens the app, the user is able to see all events listed nearby his/her locality. This can be done by using map/location services. They can then select any event and participate.
+* [ ] When any user opens the app, the user is able to see all events listed nearby his/her locality. This can be done by using map/location services. They can then select any event and participate.
 * [ ] The app can be made as a record keeper(company) of the money exchanged for the event. Once the event is over, the app(company) will hand over/transfer money to the winners account. We can integrate with Paypal Sandbox and play with virtual money for the purpose of this project.
 
 
