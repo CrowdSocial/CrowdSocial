@@ -1,11 +1,10 @@
  Project - **CrowdSocial**
 
-**CrowdSocial** is an Android app that allows people to pool in money to participate in a social event.
+**CrowdSocial** is an Android app that allows people to pool in money to participate in a social event. It is a crowdfunding App for private competition events.
 
 Example:
 
-If I have a ping pong table at home, I can create a competition event on this app and invite friends or people in nearby locality to participate/play in my event by asking them to contribute a certain amount e.g.: $20 with riders that explain the competition rules, maximum number or participants allowed and how the prize money will be divided amongst the winners. If I create an event with participation amount of $20 and If 10 people agree to participate, the total prize will grow to $200. More the people, larger the prize money.
-After the event is over, the event page will display the competition results and the owner’s name(if not kept private).
+If I have a ping pong table at home, I can create a competition event on this app and invite friends or people in nearby locality to participate/play in my event by asking them to contribute a certain amount e.g.: $20 with riders that explain the event rules, maximum number or participants allowed and how the prize money will be divided amongst the winners. If I create an event with participation amount of $20 and If 10 people agree to participate, the total prize will grow to $200. More the people, larger the prize money. A user can create several types of events (Hacking competitions, Beer pong parties, Dance competitions, Sports etc).
 
 ## User Stories
 
@@ -15,7 +14,7 @@ The following **required** functionality is completed:
 * [ ] App allows users to create an event.
 * [ ] It will use Parse backend to store information.
 * [ ] Allows users to add description of the event along with its rules/max number of people the event can accommodate/place and date of the event and the contribution amount every person has to pay if they participate in the event. It will also display the date when the event will be closed for participation.
-* [ ] The event displays the current count of users agreed to participate in the event and the total $ amount committed for the event
+* [ ] The event displays the current count of users agreed to participate in the event and the total $ amount committed for the event.
 * [ ] User creating an event is able to invite his/her friends by sharing the link of the event using sharing providers.
 * [ ] Participating users are able to login and participate in the event.
 * [ ] When the event is over, the event owner can close the event on app and declare the winner.
@@ -23,15 +22,17 @@ The following **required** functionality is completed:
 
 The following **optional** features are implemented:
 
-* [ ] The app shows a quick tour of itself once its opened for the first time
-* [ ] It provides a button/link to open the quick tour anytime a user wants
+* [ ] The app shows a quick tour of itself once its opened for the first time.
+* [ ] It provides a button/link to open the quick tour anytime a user wants.
 * [ ] App allows the event creating user to add images/media for event (e.g.: photo of a ping pong table), either by directly uploading or using camera.
 * [ ] Participating users get an email confirmation when they participate in an event.
+* [ ] App shows the place of the event on Google Maps.
 
 
 The following **bonus** features are implemented:
 
-* [ ] When any user opens the app, the user is able to see all events listed nearby his/her locality. This can be done by using map/location services. They can then select any event and participate.
+* [ ] App allows users to create private and pubic events.
+* [ ] When any user opens the app, the user is able to see all public events listed nearby his/her locality. This can be done by using map/location services. They can then select any event and participate.
 * [ ] The app can be made as a record keeper(company) of the money exchanged for the event. Once the event is over, the app(company) will hand over/transfer money to the winners account. We can integrate with Paypal Sandbox and play with virtual money for the purpose of this project.
 
 
