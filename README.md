@@ -13,11 +13,11 @@ The following **required** functionality is completed:
 * [ ] Allow App users to login/logout of the app. A user can be a person creating an event or participating in an event.
 * [ ] App allows users to create an event.
 * [ ] It will use Parse backend to store information.
-* [ ] Allows users to add description of the event along with its rules/max number of people the event can accommodate/place and date of the event and the contribution amount every person has to pay if they participate in the event. It will also display the date when the event will be closed for participation.
+* [ ] Allows users to add description of an event along with its rules/max number of people the event can accommodate/place and date of the event and the contribution amount every person has to pay if they participate in the event. It will also display the date when the event will be closed for participation.
 * [ ] The event displays the current count of users agreed to participate in the event and the total $ amount committed for the event.
 * [ ] User creating an event is able to invite his/her friends by sharing the link of the event using sharing providers.
-* [ ] Participating users are able to login and participate in the event.
-* [ ] When the event is over, the event owner can close the event on app and declare the winner.
+* [ ] Participating users are able to login and participate in an event.
+* [ ] When an event is over, the event owner can close the event on app and declare the winner.
 
 
 The following **optional** features are implemented:
@@ -33,7 +33,7 @@ The following **bonus** features are implemented:
 
 * [ ] App allows users to create private and pubic events.
 * [ ] When any user opens the app, the user is able to see all public events listed nearby his/her locality. This can be done by using map/location services. They can then select any event and participate.
-* [ ] The app can be made as a record keeper of the money exchanged for the event. It integrates with Paypal and tranfers money to the user creating the event.
+* [ ] The app can be made as a record keeper of the money exchanged for the event. It integrates with Paypal and tranfers money to the user creating an event.
 
 
 ## License
