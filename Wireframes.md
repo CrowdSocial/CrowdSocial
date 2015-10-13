@@ -33,7 +33,7 @@
 
 **Event List Screen**
 
-- Tabs for “Events Created” and “Events Participating”
+- Tabs for “My Events” and “Events Participating”
 - Both tabs show:
  - List of Events
  - Event Title, Two line event description, Event Image, Event Location
