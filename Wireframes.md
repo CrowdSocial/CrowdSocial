@@ -31,7 +31,7 @@
 - Current count of users participating
 - Button for logged in user to participate in the event
 
-**Event List Page**
+**Event List Screen**
 
 - Tabs for “Events Created” and “Events Participating”
 - Both tabs show:
