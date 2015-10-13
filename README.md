@@ -15,6 +15,7 @@ The following **required** functionality is completed:
 * [ ] It will use Parse backend to store information.
 * [ ] Allows users to add description of an event along with its rules/max number of people the event can accommodate/place and date of the event and the contribution amount every person has to pay if they participate in the event. It will also display the date when the event will be closed for participation.
 * [ ] The event displays the current count of users agreed to participate in the event and the total $ amount committed for the event.
+* [ ] App allows the event creating user to add images/media for event (e.g.: photo of a ping pong table), either by directly uploading or using camera.
 * [ ] User creating an event is able to invite his/her friends by sharing the link of the event using sharing providers.
 * [ ] Participating users are able to login and participate in an event.
 * [ ] When an event is over, the event owner can close the event on app and declare the winner.
@@ -24,7 +25,6 @@ The following **optional** features are implemented:
 
 * [ ] The app shows a quick tour of itself once its opened for the first time.
 * [ ] It provides a button/link to open the quick tour anytime a user wants.
-* [ ] App allows the event creating user to add images/media for event (e.g.: photo of a ping pong table), either by directly uploading or using camera.
 * [ ] Participating users get an email confirmation when they participate in an event.
 * [ ] App shows the place of the event on Google Maps.
 
