@@ -1,7 +1,7 @@
 ## Wireframe Details
 
 
-**Home screen**
+**Quick Demo screen**
 
 - Quick Tour -> 3 sliding screens with animation/graphics that runs only first time on a fragment
 - Will show event details screen (see below) if user is an invitee, else create event sceen (see below) to add an event
