@@ -36,7 +36,7 @@
 - Tabs for “Events Created” and “Events Participating”
 - Both tabs show:
  - List of Events
- - Event Title, Two line event description, Event Image
+ - Event Title, Two line event description, Event Image, Event Location
 
 **Login/Register Screen**
 
