@@ -10,13 +10,13 @@
 **Create Event screen**
 
 - User can select theme of event (sports/party etc)
-- Add title
+- Add Title
 - Add Image >> use camera or gallery
-- Add description
-- Add location
-- Add date/time
-- Select free/paid
-- If paid, add $amount
+- Add Description
+- Add Location
+- Add Date/Time
+- Select Free/Paid
+- If paid, add $ amount
 
 **Event Detail Screen**
 
