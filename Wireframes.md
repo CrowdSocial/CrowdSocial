@@ -1,7 +1,7 @@
 ## Wireframe Details
 
 
-**Home screen**
+**Quick Demo screen**
 
 - Quick Tour -> 3 sliding screens with animation/graphics that runs only first time on a fragment
 - Will show event details screen (see below) if user is an invitee, else create event sceen (see below) to add an event
@@ -10,13 +10,13 @@
 **Create Event screen**
 
 - User can select theme of event (sports/party etc)
-- Add title
+- Add Title
 - Add Image >> use camera or gallery
-- Add description
-- Add location
-- Add date/time
-- Select free/paid
-- If paid, add $amount
+- Add Description
+- Add Location
+- Add Date/Time
+- Select Free/Paid
+- If paid, add $ amount
 
 **Event Detail Screen**
 
@@ -31,12 +31,12 @@
 - Current count of users participating
 - Button for logged in user to participate in the event
 
-**Event List Page**
+**Event List Screen**
 
-- Tabs for “Events Created” and “Events Participating”
+- Tabs for “My Events” and “Events Participating”
 - Both tabs show:
  - List of Events
- - Event Title, Two line evebt description, Event Image
+ - Event Title, Two line event description, Event Image, Event Location
 
 **Login/Register Screen**
 
