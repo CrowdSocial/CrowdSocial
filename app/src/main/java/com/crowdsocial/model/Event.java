@@ -12,7 +12,7 @@ public class Event {
     public String imageUrl;
 
     //remove this method once we start working with real events
-    public static List<Event> getDummyEvents() {
+    public static List<Event> getDummyMyEvents() {
         ArrayList<Event> events = new ArrayList<>();
 
         Event event1 = new Event();
@@ -30,6 +30,17 @@ public class Event {
         event2.imageUrl = "http://www.teamsideline.com/Assets/267/sports.jpg";
 
         events.add(event2);
+
+
+
+        return events;
+    }
+
+
+    public static List<Event> getDummyParticipatingEvents() {
+        ArrayList<Event> events = new ArrayList<>();
+
+        events.addAll(getDummyMyEvents());
 
         Event event3 = new Event();
         event3.title = "Trekking event!";
