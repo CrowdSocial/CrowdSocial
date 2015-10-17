@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">CrowdSocial</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_event_detail">EventDetailActivity</string>
+    <string name="i_am_in">I am In!</string>
+    <string name="when">When</string>
+    <string name="where">Where</string>
+    <string name="committed">Committed</string>
+    <string name="total_participating">Total Participating</string>
 </resources>
