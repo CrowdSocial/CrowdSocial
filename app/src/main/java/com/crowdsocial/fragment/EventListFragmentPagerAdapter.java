@@ -19,7 +19,11 @@ public class EventListFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return EventListFragment.newInstance(position + 1);
+        if(position == 0) {
+            return MyEventsListFragment.newInstance();
+        } else {
+            return ParticipatingEventsListFragment.newInstance();
+        }
     }
 
     @Override
