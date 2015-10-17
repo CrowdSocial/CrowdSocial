@@ -2,7 +2,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="com.crowdsocial.EventDetailActivity">
+                tools:context="com.crowdsocial.activity.EventDetailActivity">
 
     <ImageView
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
         android:textColor="#FFFFFF"
         android:layout_alignBottom="@+id/ivEvent"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"/>
 
     <RelativeLayout
@@ -44,7 +44,6 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_centerInParent="true"
-            android:text="Medium Text"
             android:id="@+id/tvAmount"
             android:layout_marginStart="20dp"
             android:layout_alignParentStart="true"
@@ -153,9 +152,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Random Text"
         android:layout_below="@+id/rlLocation"
         android:id="@+id/tvDescription"
+        android:padding="10dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"/>
 
