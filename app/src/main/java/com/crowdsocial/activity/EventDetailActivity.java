@@ -2,8 +2,6 @@ package com.crowdsocial.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,15 +9,15 @@ import android.widget.TextView;
 import com.crowdsocial.R;
 import com.squareup.picasso.Picasso;
 
-public class EventDetailActivity extends AppCompatActivity {
+public class EventDetailActivity extends BaseActivity {
 
-    ImageView ivEvent;
-    TextView tvLocation;
-    TextView tvAmount;
-    TextView tvParticipateCount;
-    TextView tvCommittedAmount;
-    TextView tvDateTime;
-    TextView tvDescription;
+    private ImageView ivEvent;
+    private TextView tvLocation;
+    private TextView tvAmount;
+    private TextView tvParticipateCount;
+    private TextView tvCommittedAmount;
+    private TextView tvDateTime;
+    private TextView tvDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +44,6 @@ public class EventDetailActivity extends AppCompatActivity {
                 "your event: welcome, introductions, toasts, " +
                 "special dances, announcements, roasts");
         tvDateTime.setText("June 25");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_event_detail, menu);
-
-
-        return true;
     }
 
     @Override
