@@ -9,7 +9,7 @@ import android.view.MenuItem;
 
 import com.crowdsocial.R;
 import com.crowdsocial.dialog.LoginRegisterDialogFragment;
-import com.crowdsocial.util.ProfileUtil;
+import com.crowdsocial.util.ParseUtil;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -26,7 +26,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void onProfileClick(MenuItem item) {
-        if(ProfileUtil.isUserLoggedIn(this)) {
+        if(ParseUtil.isUserLoggedIn()) {
             Intent i = new Intent(this, ProfileActivity.class);
             startActivityForResult(i, 1);
         } else {
