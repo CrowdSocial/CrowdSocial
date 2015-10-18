@@ -10,8 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.crowdsocial.R;
-import com.crowdsocial.fragments.Step1Fragment;
-import com.crowdsocial.fragments.Step2Fragment;
+import com.crowdsocial.fragment.Step1Fragment;
+import com.crowdsocial.fragment.Step2Fragment;
 
 public class CreateEventActivity extends AppCompatActivity {
 
