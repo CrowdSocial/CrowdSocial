@@ -1,15 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:context=".HomeActivity">
+      tools:context="com.crowdsocial.activity.ProfileActivity">
       <item android:id="@+id/action_account"
             android:title="@string/action_account"
             android:icon="@drawable/ic_account"
             android:orderInCategory="100"
-            android:onClick="onAccountClick"
-            app:showAsAction="always"/>
+            android:onClick="onProfileClick"
+            app:showAsAction="ifRoom"/>
       <item android:id="@+id/action_create"
             android:title="@string/action_create"
             android:orderInCategory="100"
-            app:showAsAction="always"/>
+            app:showAsAction="ifRoom"/>
 </menu>
