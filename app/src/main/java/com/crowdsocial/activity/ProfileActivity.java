@@ -5,13 +5,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.crowdsocial.R;
+import com.crowdsocial.util.GravatarUtil;
 import com.crowdsocial.util.ParseUtil;
+import com.squareup.picasso.Picasso;
 
 public class ProfileActivity extends BaseActivity {
 
     private Button btLogout;
+    private ImageView ivProfile;
+    private TextView tvEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +25,8 @@ public class ProfileActivity extends BaseActivity {
         setContentView(R.layout.activity_profile);
 
         btLogout = (Button) findViewById(R.id.btLogout);
+        tvEmail = (TextView) findViewById(R.id.tvEmail);
+        ivProfile = (ImageView) findViewById(R.id.ivProfile);
 
         btLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,6 +35,9 @@ public class ProfileActivity extends BaseActivity {
                 finish();
             }
         });
+
+        String email = getIntent().getStringExtra("email");
+        Picasso.with(this).load(GravatarUtil.getGravatarUrl(email)).into(ivProfile);
     }
 
     @Override
