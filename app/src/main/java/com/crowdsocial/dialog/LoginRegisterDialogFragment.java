@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import com.crowdsocial.R;
+import com.crowdsocial.util.ParseUtil;
 
 public class LoginRegisterDialogFragment extends DialogFragment {
 
@@ -35,8 +36,27 @@ public class LoginRegisterDialogFragment extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        swLoginReg = (Switch) view.findViewById(R.id.swLoginReg);
+        etEmail = (EditText) view.findViewById(R.id.etEmail);
+        etPassword = (EditText) view.findViewById(R.id.etPassword);
+        btLoginReg = (Button) view.findViewById(R.id.btLoginReg);
 
+        btLoginReg.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(swLoginReg.isChecked()) {
+                            ParseUtil.loginUser(
+                                    etEmail.getText().toString(), etPassword.getText().toString());
+                        } else {
+                            ParseUtil.createUser(
+                                    etEmail.getText().toString(), etPassword.getText().toString());
+                        }
+                        dismiss();
+                    }
+                }
+        );
+
+        swLoginReg = (Switch) view.findViewById(R.id.swLoginReg);
         swLoginReg.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -47,16 +67,11 @@ public class LoginRegisterDialogFragment extends DialogFragment {
                 }
             }
         });
-        etEmail = (EditText) view.findViewById(R.id.etEmail);
-        etPassword = (EditText) view.findViewById(R.id.etPassword);
-        btLoginReg = (Button) view.findViewById(R.id.btLoginReg);
 
-        if(swLoginReg.isChecked()) {
+        if (swLoginReg.isChecked()) {
             btLoginReg.setText(R.string.login);
         } else {
             btLoginReg.setText(R.string.register);
         }
     }
-
-
 }

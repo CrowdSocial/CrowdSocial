@@ -1,5 +1,6 @@
 package com.crowdsocial.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,8 @@ import android.view.MenuItem;
 
 import com.crowdsocial.R;
 import com.crowdsocial.dialog.LoginRegisterDialogFragment;
+import com.crowdsocial.util.ParseUtil;
+import com.parse.ParseUser;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -23,8 +26,15 @@ public class BaseActivity extends AppCompatActivity {
         return true;
     }
 
-    public void onAccountClick(MenuItem item) {
-        showLoginRegisterDialog();
+    public void onProfileClick(MenuItem item) {
+        if(ParseUtil.isUserLoggedIn()) {
+            Intent i = new Intent(this, ProfileActivity.class);
+            ParseUser parseUser = ParseUtil.getLoggedInUser();
+            i.putExtra("email", parseUser.getEmail());
+            startActivityForResult(i, 1);
+        } else {
+            showLoginRegisterDialog();
+        }
     }
 
 
