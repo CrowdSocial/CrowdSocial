@@ -1,5 +1,6 @@
 package com.crowdsocial.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -66,6 +67,10 @@ public class EventDetailActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        if (id == R.id.action_create) {
+            Intent i = new Intent(this, CreateEventActivity.class);
+            startActivity(i);
         }
 
         return super.onOptionsItemSelected(item);
