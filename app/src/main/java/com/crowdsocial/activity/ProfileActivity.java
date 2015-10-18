@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.crowdsocial.R;
-import com.crowdsocial.util.ProfileUtil;
+import com.crowdsocial.util.ParseUtil;
 
 public class ProfileActivity extends BaseActivity {
 
@@ -23,7 +23,7 @@ public class ProfileActivity extends BaseActivity {
         btLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProfileUtil.logoutUser(ProfileActivity.this);
+                ParseUtil.logoutUser();
                 finish();
             }
         });

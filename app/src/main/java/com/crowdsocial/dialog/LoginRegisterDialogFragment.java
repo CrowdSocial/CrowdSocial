@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import com.crowdsocial.R;
-import com.crowdsocial.util.ProfileUtil;
+import com.crowdsocial.util.ParseUtil;
 
 public class LoginRegisterDialogFragment extends DialogFragment {
 
@@ -44,7 +44,13 @@ public class LoginRegisterDialogFragment extends DialogFragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ProfileUtil.loginUser(getContext(), etEmail.getText().toString());
+                        if(swLoginReg.isChecked()) {
+                            ParseUtil.loginUser(
+                                    etEmail.getText().toString(), etPassword.getText().toString());
+                        } else {
+                            ParseUtil.createUser(
+                                    etEmail.getText().toString(), etPassword.getText().toString());
+                        }
                         dismiss();
                     }
                 }
