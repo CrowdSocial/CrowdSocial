@@ -2,18 +2,14 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.crowdsocial.activity.EventDetailActivity">
-    <item android:id="@+id/action_settings"
-          android:title="@string/action_settings"
-          android:orderInCategory="100"
-          app:showAsAction="never"/>
-      <item android:id="@+id/action_create"
-            android:title="@string/action_create"
-            android:orderInCategory="100"
-            app:showAsAction="never"/>
       <item android:id="@+id/action_account"
             android:title="@string/action_account"
             android:icon="@drawable/ic_account"
             android:orderInCategory="100"
             android:onClick="onAccountClick"
+            app:showAsAction="always"/>
+      <item android:id="@+id/action_create"
+            android:title="@string/action_create"
+            android:orderInCategory="100"
             app:showAsAction="always"/>
 </menu>
