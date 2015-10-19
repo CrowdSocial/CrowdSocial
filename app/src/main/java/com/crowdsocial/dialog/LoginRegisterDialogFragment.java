@@ -12,7 +12,12 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import com.crowdsocial.R;
+import com.crowdsocial.util.ParseErrorHandler;
 import com.crowdsocial.util.ParseUtil;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 public class LoginRegisterDialogFragment extends DialogFragment {
 
@@ -20,6 +25,11 @@ public class LoginRegisterDialogFragment extends DialogFragment {
     private EditText etEmail;
     private EditText etPassword;
     private Button btLoginReg;
+
+    public interface LoginRegisterDialogListener {
+        void onFinishLoginRegisterDialog();
+    }
+
 
     public static LoginRegisterDialogFragment newInstance() {
         LoginRegisterDialogFragment fragment = new LoginRegisterDialogFragment();
@@ -41,19 +51,49 @@ public class LoginRegisterDialogFragment extends DialogFragment {
         btLoginReg = (Button) view.findViewById(R.id.btLoginReg);
 
         btLoginReg.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(swLoginReg.isChecked()) {
-                            ParseUtil.loginUser(
-                                    etEmail.getText().toString(), etPassword.getText().toString());
-                        } else {
-                            ParseUtil.createUser(
-                                    etEmail.getText().toString(), etPassword.getText().toString());
-                        }
-                        dismiss();
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (swLoginReg.isChecked()) {
+
+                        LogInCallback callback = new LogInCallback() {
+                            public void done(ParseUser user, ParseException e) {
+                                if(e != null) {
+                                    ParseErrorHandler.handleError(e);
+                                } else {
+                                    LoginRegisterDialogListener listener =
+                                            (LoginRegisterDialogListener) getActivity();
+                                    listener.onFinishLoginRegisterDialog();
+                                    dismiss();
+                                }
+                            }
+                        };
+
+                        ParseUtil.loginUser(etEmail.getText().toString(),
+                                etPassword.getText().toString(),
+                                callback);
+                    } else {
+
+                        SignUpCallback callback = new SignUpCallback() {
+                            public void done(ParseException e) {
+                                if(e != null) {
+                                    ParseErrorHandler.handleError(e);
+                                } else {
+                                    LoginRegisterDialogListener listener =
+                                            (LoginRegisterDialogListener) getActivity();
+                                    listener.onFinishLoginRegisterDialog();
+                                    dismiss();
+                                }
+                            }
+                        };
+
+                        ParseUtil.createUser(etEmail.getText().toString(),
+                                etPassword.getText().toString(),
+                                callback);
                     }
+
                 }
+            }
         );
 
         swLoginReg = (Switch) view.findViewById(R.id.swLoginReg);

@@ -48,11 +48,11 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
 
         Event event = getItem(position);
 
-        viewHolder.tvTitle.setText(event.title);
-        viewHolder.tvLocation.setText(event.location);
-        viewHolder.tvDescription.setText(event.description);
+        viewHolder.tvTitle.setText(event.getTitle());
+        viewHolder.tvLocation.setText(event.getLocation());
+        viewHolder.tvDescription.setText(event.getDescription());
 
-        Picasso.with(getContext()).load(event.imageUrl).into(viewHolder.ivEvent);
+        Picasso.with(getContext()).load(event.getImageUrl()).into(viewHolder.ivEvent);
 
         return convertView;
     }

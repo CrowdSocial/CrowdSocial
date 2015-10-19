@@ -1,55 +1,81 @@
 package com.crowdsocial.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
-public class Event {
-    public String title;
-    public String description;
-    public String location;
-    public int maxParticipants;
-    public int participationAmount;
-    public String imageUrl;
+@ParseClassName("Event")
+public class Event extends ParseObject {
+    private String title;
+    private String description;
+    private String location;
+    private int maxParticipants;
+    private int participationAmount;
+    private String imageUrl;
+    private boolean isFree;
+    private ParseUser user;
 
-    //remove this method once we start working with real events
-    public static List<Event> getDummyMyEvents() {
-        ArrayList<Event> events = new ArrayList<>();
-
-        Event event1 = new Event();
-        event1.title = "Party event!";
-        event1.description = "Party time description";
-        event1.location = "San Francisco";
-        event1.imageUrl = "http://lvs.luxury/wp-content/uploads/2015/05/IMG_1266Porche-event.jpg";
-
-        events.add(event1);
-
-        Event event2 = new Event();
-        event2.title = "Sports event!";
-        event2.description = "Sports time description";
-        event2.location = "San Jose";
-        event2.imageUrl = "http://www.teamsideline.com/Assets/267/sports.jpg";
-
-        events.add(event2);
-
-
-
-        return events;
+    public String getTitle() {
+        return getString("title");
     }
 
+    public void setTitle(String title) {
+        put("title", title);
+    }
 
-    public static List<Event> getDummyParticipatingEvents() {
-        ArrayList<Event> events = new ArrayList<>();
+    public String getDescription() {
+        return getString("description");
+    }
 
-        events.addAll(getDummyMyEvents());
+    public void setDescription(String description) {
+        put("description", description);
+    }
 
-        Event event3 = new Event();
-        event3.title = "Trekking event!";
-        event3.description = "Party time description";
-        event3.location = "Los Angeles";
-        event3.imageUrl = "http://www.holimites.com/pics/dolomites-trekking-av2-patitucciphoto-5.jpg";
+    public String getLocation() {
+        return getString("location");
+    }
 
-        events.add(event3);
+    public void setLocation(String location) {
+        put("location", location);
+    }
 
-        return events;
+    public int getMaxParticipants() {
+        return getInt("maxParticipants");
+    }
+
+    public void setMaxParticipants(int maxParticipants) {
+        put("maxParticipants", maxParticipants);
+    }
+
+    public int getParticipationAmount() {
+        return getInt("participationAmount");
+    }
+
+    public void setParticipationAmount(int participationAmount) {
+        put("participationAmount", participationAmount);
+    }
+
+    public String getImageUrl() {
+        return getString("imageUrl");
+    }
+
+    public void setImageUrl(String imageUrl) {
+        put("imageUrl", imageUrl);
+    }
+
+    public boolean isFree() {
+        return getBoolean("isFree");
+    }
+
+    public void setIsFree(boolean isFree) {
+        put("isFree", isFree);
+    }
+
+    public void setUser(ParseUser user) {
+        put("user", user);
+    }
+
+    public ParseUser getUser() {
+        return (ParseUser) getParseObject("user");
     }
 }
