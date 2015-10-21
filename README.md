@@ -36,6 +36,9 @@ The following **bonus** features are implemented:
 * [ ] When any user opens the app, the user is able to see all public events listed nearby his/her locality. This can be done by using map/location services. They can then select any event and participate.
 * [ ] The app can be made as a record keeper of the money exchanged for the event. It integrates with Paypal and tranfers money to the user creating an event.
 
+## Video Walkthrough
+
+![Video Walkthrough](https://github.com/CrowdSocial/CrowdSocial/blob/master/crowdsocial.gif?raw=true)
 
 ## License
 
