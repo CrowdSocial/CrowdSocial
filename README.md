@@ -19,6 +19,7 @@ The following **required** functionality is completed:
 * [ ] User creating an event is able to invite his/her friends by sharing the link of the event using sharing providers.
 * [ ] Participating users are able to login and participate in an event.
 * [ ] When an event is over, the event owner can close the event on app and declare the winner.
+* [ ] Users can view their profile page
 
 
 The following **optional** features are implemented:

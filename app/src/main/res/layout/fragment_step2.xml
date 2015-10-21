@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal|top">
+        android:layout_gravity="left|bottom">
 
         <Switch
             android:layout_width="wrap_content"
@@ -76,8 +76,27 @@
             android:id="@+id/swPrivate"
             android:layout_below="@+id/labelCost"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="79dp"
+            android:layout_marginTop="59dp"
             android:checked="true"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Event Date"
+            android:onClick="setEventDate"
+            android:id="@+id/btnDate"
+            android:layout_below="@+id/swPrivate"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="52dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/tvDate"
+            android:layout_marginTop="65dp"
+            android:layout_toRightOf="@+id/btnDate"
+            android:layout_below="@+id/swPrivate"/>
 
     </RelativeLayout>
 </FrameLayout>
