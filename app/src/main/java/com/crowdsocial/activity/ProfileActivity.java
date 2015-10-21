@@ -1,5 +1,6 @@
 package com.crowdsocial.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,7 +33,9 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ParseUtil.logoutUser();
-                setResult(RESULT_OK, null);
+                Intent i = new Intent(ProfileActivity.this, EventListActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
                 finish();
             }
         });
