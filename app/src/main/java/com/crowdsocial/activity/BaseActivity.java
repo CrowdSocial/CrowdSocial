@@ -15,8 +15,6 @@ import com.parse.ParseUser;
 public class BaseActivity extends AppCompatActivity implements
         LoginRegisterDialogFragment.LoginRegisterDialogListener {
 
-    private static final int REQUEST_CODE = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,17 +32,9 @@ public class BaseActivity extends AppCompatActivity implements
             Intent i = new Intent(this, ProfileActivity.class);
             ParseUser parseUser = ParseUtil.getLoggedInUser();
             i.putExtra("email", parseUser.getEmail());
-            startActivityForResult(i, REQUEST_CODE);
+            startActivity(i);
         } else {
             showLoginRegisterDialog();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // REQUEST_CODE is defined above
-        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-            reloadActivity();
         }
     }
 
