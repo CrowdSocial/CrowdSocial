@@ -12,7 +12,10 @@ import com.crowdsocial.dialog.LoginRegisterDialogFragment;
 import com.crowdsocial.util.ParseUtil;
 import com.parse.ParseUser;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity implements
+        LoginRegisterDialogFragment.LoginRegisterDialogListener {
+
+    private static final int REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +34,33 @@ public class BaseActivity extends AppCompatActivity {
             Intent i = new Intent(this, ProfileActivity.class);
             ParseUser parseUser = ParseUtil.getLoggedInUser();
             i.putExtra("email", parseUser.getEmail());
-            startActivityForResult(i, 1);
+            startActivityForResult(i, REQUEST_CODE);
         } else {
             showLoginRegisterDialog();
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // REQUEST_CODE is defined above
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            reloadActivity();
+        }
+    }
 
     private void showLoginRegisterDialog() {
         FragmentManager fm = getSupportFragmentManager();
         LoginRegisterDialogFragment dialog = LoginRegisterDialogFragment.newInstance();
         dialog.show(fm, "login_register_fragment");
+    }
+
+    public void onFinishLoginRegisterDialog() {
+        reloadActivity();
+    }
+
+    //force activity refresh on login to retrieve user events
+    private void reloadActivity() {
+        finish();
+        startActivity(getIntent());
     }
 }

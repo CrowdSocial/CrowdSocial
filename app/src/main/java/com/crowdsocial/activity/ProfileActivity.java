@@ -32,6 +32,7 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ParseUtil.logoutUser();
+                setResult(RESULT_OK, null);
                 finish();
             }
         });
