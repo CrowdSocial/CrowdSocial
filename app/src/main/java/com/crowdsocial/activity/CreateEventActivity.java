@@ -24,13 +24,17 @@ import java.util.Calendar;
 
 public class CreateEventActivity extends BaseActivity {
 
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new EventCreateStepsPagerAdapter(getSupportFragmentManager()));
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+
+        EventCreateStepsPagerAdapter pagerAdapter =
+                new EventCreateStepsPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
     }
 
     @Override
@@ -49,24 +53,23 @@ public class CreateEventActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void addAContact(View view) {
-
+    public void nextStep(View view) {
+        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
     }
 
-    public void nextToStep2(View view) {
-        android.app.FragmentManager fm = CreateEventActivity.this.getFragmentManager();
-        Step2Fragment step2Fragment = new Step2Fragment();
-        Bundle args = new Bundle();
-        Event event = new Event();
-//        args.putParcelable("event", event);
-        step2Fragment.setArguments(args);
-//        step2Fragment.setListener(CreateEventActivity.this);
-//        step2Fragment.show(fm, "step2Fragment");
+    public void previousStep(View view) {
+        viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
     }
 
     public void setEventDate(View view) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(),"Date Picker");
+    }
+
+    public void createEvent(View view) {
+        Event event = new Event();
+
+        //call parse and save the event;
     }
 
     public class EventCreateStepsPagerAdapter extends FragmentStatePagerAdapter {
@@ -91,7 +94,7 @@ public class CreateEventActivity extends BaseActivity {
 
         @Override
         public int getCount() {
-            return tabTitles.length;
+            return 3;
         }
 
         @Override
@@ -103,7 +106,8 @@ public class CreateEventActivity extends BaseActivity {
     /**
      * A simple {@link Fragment} subclass.
      */
-    public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+    public class DatePickerFragment
+            extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState){
