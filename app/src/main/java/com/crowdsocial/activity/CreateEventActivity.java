@@ -2,16 +2,12 @@ package com.crowdsocial.activity;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +23,7 @@ import com.crowdsocial.model.Event;
 import java.util.Calendar;
 
 public class CreateEventActivity extends BaseActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,20 +50,7 @@ public class CreateEventActivity extends BaseActivity {
     }
 
     public void addAContact(View view) {
-        Intent pickContact = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-        pickContact.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
-        startActivityForResult(pickContact, FinalFragment.PICK_CONTACT_REQUEST);
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == FinalFragment.PICK_CONTACT_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                Uri pickedData = data.getData();
-                Log.d("KAVITHA","data "+ pickedData.toString());
-            }
-        }
     }
 
     public void nextToStep2(View view) {

@@ -10,6 +10,7 @@
             app:showAsAction="ifRoom"/>
       <item android:id="@+id/action_create"
             android:title="@string/action_create"
+            android:onClick="onCreateEventClick"
             android:orderInCategory="100"
             app:showAsAction="ifRoom"/>
 </menu>

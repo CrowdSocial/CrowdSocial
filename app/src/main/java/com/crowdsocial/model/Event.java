@@ -4,6 +4,9 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ParseClassName("Event")
 public class Event extends ParseObject {
     private String title;
@@ -14,6 +17,7 @@ public class Event extends ParseObject {
     private String imageUrl;
     private boolean isFree;
     private ParseUser user;
+    private List<Invitee> invitees;
 
     public String getTitle() {
         return getString("title");
@@ -77,5 +81,9 @@ public class Event extends ParseObject {
 
     public ParseUser getUser() {
         return (ParseUser) getParseObject("user");
+    }
+
+    public List<Invitee> getInvitees() {
+        return invitees == null ? new ArrayList<Invitee>() : invitees;
     }
 }

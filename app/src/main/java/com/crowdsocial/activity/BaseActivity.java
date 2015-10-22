@@ -53,4 +53,13 @@ public class BaseActivity extends AppCompatActivity implements
         finish();
         startActivity(getIntent());
     }
+
+    public void onCreateEventClick(MenuItem item) {
+        if(ParseUtil.isUserLoggedIn()) {
+            Intent i = new Intent(this, CreateEventActivity.class);
+            startActivity(i);
+        } else {
+            showLoginRegisterDialog();
+        }
+    }
 }
