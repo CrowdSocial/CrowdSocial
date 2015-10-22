@@ -10,16 +10,16 @@ If I have a ping pong table at home, I can create a competition event on this ap
 
 The following **required** functionality is completed:
 
-* [ ] Allow App users to login/logout of the app. A user can be a person creating an event or participating in an event.
-* [ ] App allows users to create an event.
-* [ ] It will use Parse backend to store information.
-* [ ] Allows users to add description of an event along with its rules/max number of people the event can accommodate/place and date of the event and the contribution amount every person has to pay if they participate in the event. It will also display the date when the event will be closed for participation.
+* [x] Allow App users to login/logout of the app. A user can be a person creating an event or participating in an event.
+* [x] App allows users to create an event.
+* [x] It will use Parse backend to store information.
+* [x] Allows users to add description of an event along with its rules/max number of people the event can accommodate/place and date of the event and the contribution amount every person has to pay if they participate in the event. It will also display the date when the event will be closed for participation.
 * [ ] The event displays the current count of users agreed to participate in the event and the total $ amount committed for the event.
 * [ ] App allows the event creating user to add images/media for event (e.g.: photo of a ping pong table), either by directly uploading or using camera.
 * [ ] User creating an event is able to invite his/her friends by sharing the link of the event using sharing providers.
 * [ ] Participating users are able to login and participate in an event.
 * [ ] When an event is over, the event owner can close the event on app and declare the winner.
-* [ ] Users can view their profile page
+* [x] Users can view their profile page
 
 
 The following **optional** features are implemented:
