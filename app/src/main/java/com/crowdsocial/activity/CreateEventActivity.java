@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.crowdsocial.R;
@@ -67,6 +68,7 @@ public class CreateEventActivity extends BaseActivity {
     }
 
     public void createEvent(View view) {
+
         Event event = new Event();
 
         //call parse and save the event;
