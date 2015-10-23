@@ -13,6 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.crowdsocial.R;
@@ -26,6 +29,7 @@ import java.util.Calendar;
 public class CreateEventActivity extends BaseActivity {
 
     ViewPager viewPager;
+    EventCreateStepsPagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +37,10 @@ public class CreateEventActivity extends BaseActivity {
         setContentView(R.layout.activity_create_event);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        EventCreateStepsPagerAdapter pagerAdapter =
+        pagerAdapter =
                 new EventCreateStepsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
     }
 
     @Override
@@ -64,10 +69,19 @@ public class CreateEventActivity extends BaseActivity {
 
     public void setEventDate(View view) {
         DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(),"Date Picker");
+        newFragment.show(getSupportFragmentManager(), "Date Picker");
     }
 
     public void createEvent(View view) {
+
+        Spinner spTheme = (Spinner) findViewById(R.id.spTheme);
+        EditText etEventTitle = (EditText) findViewById(R.id.etEventTitle);
+        EditText etDescription = (EditText) findViewById(R.id.etDescription);
+        EditText etAddress = (EditText) findViewById(R.id.etAddress);
+        Switch swFree = (Switch) findViewById(R.id.swFree);
+        EditText etAmount = (EditText) findViewById(R.id.etAmount);
+        ListView lvContacts = (ListView) findViewById(R.id.lvContacts);
+        TextView tvDate = (TextView) findViewById(R.id.tvDate);
 
         Event event = new Event();
 
@@ -76,8 +90,6 @@ public class CreateEventActivity extends BaseActivity {
 
     public class EventCreateStepsPagerAdapter extends FragmentStatePagerAdapter {
 
-        private final String tabTitles[] = {"Step1", "Step2", "Final"};
-
         public EventCreateStepsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -85,11 +97,11 @@ public class CreateEventActivity extends BaseActivity {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new Step1Fragment();
+                return Step1Fragment.newInstance();
             } else if (position == 1) {
-                return new Step2Fragment();
+                return Step2Fragment.newInstance();
             } else if (position == 2) {
-                return new FinalFragment();
+                return FinalFragment.newInstance();
             }
             return null;
         }
@@ -99,16 +111,12 @@ public class CreateEventActivity extends BaseActivity {
             return 3;
         }
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return tabTitles[position];
-        }
     }
 
     /**
      * A simple {@link Fragment} subclass.
      */
-    public class DatePickerFragment
+    public static class DatePickerFragment
             extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
         @Override
@@ -120,11 +128,6 @@ public class CreateEventActivity extends BaseActivity {
             int day = c.get(Calendar.DAY_OF_MONTH);
 
             //Create a new DatePickerDialog instance and return it
-        /*
-            DatePickerDialog Public Constructors - Here we uses first one
-            public DatePickerDialog (Context context, DatePickerDialog.OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth)
-            public DatePickerDialog (Context context, int theme, DatePickerDialog.OnDateSetListener listener, int year, int monthOfYear, int dayOfMonth)
-         */
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
         public void onDateSet(DatePicker view, int year, int month, int day) {

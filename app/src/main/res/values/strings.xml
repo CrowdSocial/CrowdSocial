@@ -27,6 +27,9 @@
     <string name="event">Event</string>
     <string name="amount">Amount</string>
     <string name="venue">Venue</string>
+    <string name="event_date">Event Date</string>
+    <string name="description">Description</string>
+    <string name="Free">Free</string>
     <string-array name="theme">
         <item>sport</item>
         <item>tasting</item>

@@ -1,79 +1,60 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.crowdsocial.fragment.Step2Fragment">
-
-    <!-- TODO: Update blank fragment layout -->
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="left|bottom">
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Free"
-            android:id="@+id/swFree"
-            android:layout_gravity="center"
-            android:checked="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="74dp"/>
-
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/previous"
-            android:id="@+id/btnBack"
-            android:onClick="previousStep"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/next"
-            android:id="@+id/btnNext"
-            android:onClick="nextStep"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"/>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/labelCost"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/swFree"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp">
-
-            <EditText
-                android:id="@+id/etCost"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/amount"/>
+                android:layout_height="match_parent"
+                tools:context="com.crowdsocial.fragment.Step1Fragment">
 
-        </android.support.design.widget.TextInputLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/previous"
+        android:id="@+id/btnBack"
+        android:onClick="previousStep"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Event Date"
-            android:onClick="setEventDate"
-            android:id="@+id/btnDate"
-            android:layout_below="@+id/labelCost"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="52dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        android:id="@+id/btnNext"
+        android:onClick="nextStep"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:id="@+id/tvDate"
-            android:layout_marginTop="65dp"
-            android:layout_toRightOf="@+id/btnDate"
-            android:layout_below="@+id/labelCost"/>
+    <EditText
+        android:id="@+id/etAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/amount"/>
 
-    </RelativeLayout>
-</FrameLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/event_date"
+        android:onClick="setEventDate"
+        android:id="@+id/btnDate"
+        android:layout_below="@+id/etAmount"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="52dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/tvDate"
+        android:layout_marginTop="65dp"
+        android:layout_toRightOf="@+id/btnDate"/>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Free"
+        android:id="@+id/swFree"
+        android:layout_below="@+id/btnDate"
+        android:layout_gravity="center"
+        android:checked="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="74dp"/>
+
+</RelativeLayout>
