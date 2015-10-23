@@ -11,7 +11,6 @@ import com.squareup.picasso.Picasso;
 public class EventDetailActivity extends BaseActivity {
 
     private ImageView ivEvent;
-    private TextView tvLocation;
     private TextView tvAmount;
     private TextView tvParticipateCount;
     private TextView tvCommittedAmount;
@@ -24,7 +23,6 @@ public class EventDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_event_detail);
 
         ivEvent = (ImageView) findViewById(R.id.ivEvent);
-        tvLocation = (TextView) findViewById(R.id.tvLocation);
         tvAmount = (TextView) findViewById(R.id.tvAmount);
         tvParticipateCount = (TextView) findViewById(R.id.tvParticipateCount);
         tvDateTime = (TextView) findViewById(R.id.tvDateTime);
@@ -35,7 +33,6 @@ public class EventDetailActivity extends BaseActivity {
         Picasso.with(this)
                 .load("http://lvs.luxury/wp-content/uploads/2015/05/IMG_1266Porche-event.jpg")
                 .into(ivEvent);
-        tvLocation.setText("San Francisco");
         tvAmount.setText("$25");
         tvParticipateCount.setText("22");
         tvCommittedAmount.setText("$550");

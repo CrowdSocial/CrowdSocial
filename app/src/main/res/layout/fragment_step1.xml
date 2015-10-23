@@ -23,10 +23,10 @@
         android:layout_gravity="center_horizontal|top">
 
         <EditText
-            android:id="@+id/etEventName"
+            android:id="@+id/etEventTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Event name"/>
+            android:hint="@string/event"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -43,7 +43,7 @@
             android:id="@+id/etAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Venue"
+            android:hint="@string/venue"
             android:maxLines="3"/>
 
     </android.support.design.widget.TextInputLayout>

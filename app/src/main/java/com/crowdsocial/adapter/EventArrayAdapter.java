@@ -36,7 +36,6 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
                     .inflate(R.layout.item_event, parent, false);
 
             viewHolder = new ViewHolder();
-            viewHolder.tvLocation = (TextView) convertView.findViewById(R.id.tvLocation);
             viewHolder.tvDescription = (TextView) convertView.findViewById(R.id.tvDescription);
             viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
             viewHolder.ivEvent = (ImageView) convertView.findViewById(R.id.ivEvent);
@@ -49,7 +48,6 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
         Event event = getItem(position);
 
         viewHolder.tvTitle.setText(event.getTitle());
-        viewHolder.tvLocation.setText(event.getLocation());
         viewHolder.tvDescription.setText(event.getDescription());
 
         Picasso.with(getContext()).load(event.getImageUrl()).into(viewHolder.ivEvent);
