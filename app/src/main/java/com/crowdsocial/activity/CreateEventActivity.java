@@ -2,34 +2,44 @@ package com.crowdsocial.activity;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crowdsocial.R;
 import com.crowdsocial.fragment.FinalFragment;
 import com.crowdsocial.fragment.Step1Fragment;
 import com.crowdsocial.fragment.Step2Fragment;
 import com.crowdsocial.model.Event;
+import com.crowdsocial.util.ParseErrorHandler;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 import java.util.Calendar;
+import java.util.HashSet;
 
 public class CreateEventActivity extends BaseActivity {
 
     ViewPager viewPager;
     EventCreateStepsPagerAdapter pagerAdapter;
+
+    private static final String EMAIL_MSG_TYP = "message/rfc822";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +92,24 @@ public class CreateEventActivity extends BaseActivity {
         EditText etAmount = (EditText) findViewById(R.id.etAmount);
         ListView lvContacts = (ListView) findViewById(R.id.lvContacts);
         TextView tvDate = (TextView) findViewById(R.id.tvDate);
+        final HashSet<String> inviteeEmails = getEmailsFromListView(lvContacts);
 
-        Event event = new Event();
+        final Event event = new Event();
+        //set event fields here
 
-        //call parse and save the event;
+        event.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    ParseErrorHandler.handleError(e);
+                } else {
+                    if (inviteeEmails.size() > 0) {
+                        String eventId = event.getObjectId();
+                        sendEmail("subject", "body", inviteeEmails);
+                    }
+                }
+            }
+        });
     }
 
     public class EventCreateStepsPagerAdapter extends FragmentStatePagerAdapter {
@@ -113,9 +137,6 @@ public class CreateEventActivity extends BaseActivity {
 
     }
 
-    /**
-     * A simple {@link Fragment} subclass.
-     */
     public static class DatePickerFragment
             extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
@@ -137,5 +158,35 @@ public class CreateEventActivity extends BaseActivity {
             String stringOfDate = day + "/" + month + "/" + year;
             tv.setText(stringOfDate);
         }
+    }
+
+    private void sendEmail(String subject, String body, HashSet<String> recipients) {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType(EMAIL_MSG_TYP);
+        i.putExtra(Intent.EXTRA_EMAIL  , recipients.toArray(new String[recipients.size()]));
+        i.putExtra(Intent.EXTRA_SUBJECT, subject);
+        i.putExtra(Intent.EXTRA_TEXT   , body);
+        try {
+            startActivity(Intent.createChooser(i, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(CreateEventActivity.this,
+                    "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private HashSet<String> getEmailsFromListView(ListView lvContacts) {
+        HashSet<String> inviteeEmails = new HashSet<>();
+        for(int i = 0; i < lvContacts.getAdapter().getCount(); i++) {
+            CheckBox cbContact = (CheckBox)lvContacts.getChildAt(i).findViewById(R.id.cbContact);
+            if(cbContact.isChecked()) {
+                TextView tvEmail = (TextView) lvContacts.getChildAt(i).findViewById(R.id.tvEmail);
+                String email = tvEmail.getText().toString();
+                if(!TextUtils.isEmpty(email)) {
+                    inviteeEmails.add(email);
+                }
+            }
+        }
+
+        return inviteeEmails;
     }
 }
