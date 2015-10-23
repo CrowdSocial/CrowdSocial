@@ -30,6 +30,7 @@
     <string name="event_date">Event Date</string>
     <string name="description">Description</string>
     <string name="Free">Free</string>
+    <string name="invitation_crowdsocial">Invitation to join Event on CrowdSocial</string>
     <string-array name="theme">
         <item>sport</item>
         <item>tasting</item>
