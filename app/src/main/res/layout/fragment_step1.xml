@@ -13,43 +13,33 @@
         android:entries="@array/theme"
         android:spinnerMode="dropdown"/>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/labelEventName"
+    <EditText
+        android:id="@+id/etEventTitle"
+        android:layout_below="@id/spTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spTheme"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:layout_gravity="center_horizontal|top">
+        android:hint="@string/event"/>
 
-        <EditText
-            android:id="@+id/etEventTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/event"/>
 
-    </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/labelAddress"
+    <EditText
+        android:id="@+id/etAddress"
+        android:layout_below="@id/etEventTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/labelEventName"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="100dp">
+        android:hint="@string/venue"
+        android:maxLines="3"/>
 
-        <EditText
-            android:id="@+id/etAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/venue"
-            android:maxLines="3"/>
 
-    </android.support.design.widget.TextInputLayout>
+    <EditText
+        android:id="@+id/etDescription"
+        android:layout_width="match_parent"
+        android:layout_below="@id/etAddress"
+        android:layout_height="wrap_content"
+        android:hint="@string/description"
+        android:maxLines="3"/>
 
     <Button
-        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/next"
