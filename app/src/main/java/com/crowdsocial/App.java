@@ -13,9 +13,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
-
         ParseObject.registerSubclass(Event.class);
         ParseObject.registerSubclass(Invitee.class);
 

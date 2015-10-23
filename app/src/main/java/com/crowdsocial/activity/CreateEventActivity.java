@@ -27,10 +27,13 @@ import com.crowdsocial.fragment.FinalFragment;
 import com.crowdsocial.fragment.Step1Fragment;
 import com.crowdsocial.fragment.Step2Fragment;
 import com.crowdsocial.model.Event;
+import com.crowdsocial.model.Invitee;
 import com.crowdsocial.util.ParseErrorHandler;
+import com.crowdsocial.util.ParseUtil;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 
@@ -95,19 +98,46 @@ public class CreateEventActivity extends BaseActivity {
         final HashSet<String> inviteeEmails = getEmailsFromListView(lvContacts);
 
         final Event event = new Event();
-        //set event fields here
+        event.setUser(ParseUtil.getLoggedInUser());
+        event.setParticipationAmount(Integer.valueOf(etAmount.getText().toString()));
+        event.setParticipationAmount(Integer.valueOf(etAmount.getText().toString()));
+        event.setIsFree(swFree.isChecked());
+        event.setDescription(etDescription.getText().toString());
+        event.setLocation(etAddress.getText().toString());
+        event.setTheme(spTheme.getSelectedItem().toString());
+        event.setTitle(etEventTitle.getText().toString());
 
-        event.saveInBackground(new SaveCallback() {
+        ArrayList<Invitee> invitees = new ArrayList<>();
+        for(String email: inviteeEmails) {
+            Invitee invitee = new Invitee();
+            invitee.setAccepted(false);
+            invitee.setEmail(email);
+            invitees.add(invitee);
+            event.addInvitee(invitee);
+        }
+        Invitee.saveAllInBackground(invitees, new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e != null) {
                     ParseErrorHandler.handleError(e);
                 } else {
-                    if (inviteeEmails.size() > 0) {
-                        String eventId = event.getObjectId();
-                        sendEmail("subject", "body", inviteeEmails);
-                    }
+                    event.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e != null) {
+                                ParseErrorHandler.handleError(e);
+                            } else {
+                                if (inviteeEmails.size() > 0) {
+                                    String eventId = event.getObjectId();
+                                    sendEmail(
+                                            getString(R.string.invitation_crowdsocial)
+                                            , "body", inviteeEmails);
+                                }
+                            }
+                        }
+                    });
                 }
+
             }
         });
     }

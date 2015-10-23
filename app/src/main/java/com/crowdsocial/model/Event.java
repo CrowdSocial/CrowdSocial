@@ -2,10 +2,8 @@ package com.crowdsocial.model;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @ParseClassName("Event")
 public class Event extends ParseObject {
@@ -17,7 +15,7 @@ public class Event extends ParseObject {
     private String imageUrl;
     private boolean isFree;
     private ParseUser user;
-    private List<Invitee> invitees;
+    private String theme;
 
     public String getTitle() {
         return getString("title");
@@ -83,7 +81,25 @@ public class Event extends ParseObject {
         return (ParseUser) getParseObject("user");
     }
 
-    public List<Invitee> getInvitees() {
-        return invitees == null ? new ArrayList<Invitee>() : invitees;
+    public String getTheme() {
+        return getString("theme");
+    }
+
+    public void setTheme(String theme) {
+        put("theme", theme);
+    }
+
+    public ParseRelation<Invitee> getInviteesRelation() {
+        return getRelation("invitees");
+    }
+
+    public void addInvitee(Invitee invitee) {
+        getInviteesRelation().add(invitee);
+        saveInBackground();
+    }
+
+    public void removeInvitee(Invitee invitee) {
+        getInviteesRelation().remove(invitee);
+        saveInBackground();
     }
 }
