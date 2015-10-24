@@ -9,6 +9,9 @@ import com.parse.ParseObject;
 
 public class App extends Application {
 
+    private static final String APPLICATION_ID = "v0k2DsclfjHMPQkpQWXwirzg3bvj0SA7e149wR9K";
+    private static final String CLIENT_KEY = "05LAoJKyQjChynLjRlb9AbIZOvH7xTV0B4FyMHln";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -18,7 +21,6 @@ public class App extends Application {
 
         Parse.initialize(
                 this,
-                "v0k2DsclfjHMPQkpQWXwirzg3bvj0SA7e149wR9K",
-                "05LAoJKyQjChynLjRlb9AbIZOvH7xTV0B4FyMHln");
+                APPLICATION_ID, CLIENT_KEY);
     }
 }

@@ -20,24 +20,29 @@
             android:name=".activity.EventDetailActivity"
             android:launchMode="singleTask"
             android:label="@string/title_activity_event_detail" >
-        </activity>
-        <activity
-            android:name=".activity.EventListActivity"
-            android:label="@string/title_activity_event_list" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".activity.CreateEventActivity"
-            android:label="@string/title_activity_create_event" >
-        </activity>
-        <activity
-            android:name=".activity.ProfileActivity"
-            android:label="@string/title_activity_profile" >
-        </activity>
-    </application>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+               <data android:scheme="http" android:host="crowdsocial.codepath.com"/>
+           </intent-filter>
+       </activity>
+       <activity
+           android:name=".activity.EventListActivity"
+           android:label="@string/title_activity_event_list" >
+           <intent-filter>
+               <action android:name="android.intent.action.MAIN" />
+               <category android:name="android.intent.category.LAUNCHER" />
+           </intent-filter>
+       </activity>
+       <activity
+           android:name=".activity.CreateEventActivity"
+           android:label="@string/title_activity_create_event" >
+       </activity>
+       <activity
+           android:name=".activity.ProfileActivity"
+           android:label="@string/title_activity_profile" >
+       </activity>
+   </application>
 
 </manifest>

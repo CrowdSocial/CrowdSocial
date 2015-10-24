@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -55,10 +56,11 @@ public class CreateEventActivity extends BaseActivity {
 
     private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     private final static int SEND_EMAIL_ACTIVITY_REQUEST_CODE = 1035;
+    private final static String EMAIL_URL = "http://crowdsocial.codepath.com";
 
     private String eventImageFileName = "photo.jpg";
     private String eventImageUrl;
-    private static final String EMAIL_MSG_TYP = "message/rfc822";
+    private static final String EMAIL_MSG_TYP = "text/html";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,7 +153,13 @@ public class CreateEventActivity extends BaseActivity {
                                     String eventId = event.getObjectId();
                                     sendEmail(
                                             getString(R.string.invitation_crowdsocial)
-                                            , "body", inviteeEmails);
+                                            , getEmailBody(
+                                                    ParseUtil.getLoggedInUser().getEmail(),
+                                                    event.getTitle(),
+                                                    event.getImageUrl(),
+                                                    //todo change this to a link to the event
+                                                    EMAIL_URL + "/event/" + eventId)
+                                                    , inviteeEmails);
                                 }
                             }
                         }
@@ -214,9 +222,9 @@ public class CreateEventActivity extends BaseActivity {
     private void sendEmail(String subject, String body, HashSet<String> recipients) {
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType(EMAIL_MSG_TYP);
-        i.putExtra(Intent.EXTRA_EMAIL  , recipients.toArray(new String[recipients.size()]));
+        i.putExtra(Intent.EXTRA_EMAIL, recipients.toArray(new String[recipients.size()]));
         i.putExtra(Intent.EXTRA_SUBJECT, subject);
-        i.putExtra(Intent.EXTRA_TEXT, body);
+        i.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(body));
         try {
             startActivityForResult(Intent.createChooser(i, "Send mail..."),
                     SEND_EMAIL_ACTIVITY_REQUEST_CODE);
@@ -290,7 +298,6 @@ public class CreateEventActivity extends BaseActivity {
                 Toast.makeText(
                         this, R.string.no_invitations_sent, Toast.LENGTH_SHORT).show();
             }
-
             finish();
             Intent i = new Intent(this, EventListActivity.class);
             startActivity(i);
@@ -323,5 +330,12 @@ public class CreateEventActivity extends BaseActivity {
             return true;
         }
         return false;
+    }
+
+    private String getEmailBody(String email, String title, String imageUrl, String link) {
+        String body = getString(R.string.invitation_template);
+        return body.replace("{user_email}", email)
+                .replace("{event_title}", title)
+                .replace("{link}", link);
     }
 }
