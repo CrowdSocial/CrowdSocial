@@ -3,6 +3,7 @@ package com.crowdsocial.activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -76,27 +78,44 @@ public class EventDetailActivity extends BaseActivity {
                             if (e != null) {
                                 ParseErrorHandler.handleError(e);
                             } else {
+                                final Invitee invitee = getInvitedUser(results, ParseUserUtil.getLoggedInUser().getEmail());
                                 if (event.getUser().getEmail().equals(ParseUserUtil.getLoggedInUser().getEmail())) {
                                     btParticipate.setEnabled(false);
-                                } else if (containsEmail(results, ParseUserUtil.getLoggedInUser().getEmail())) {
+                                } else if (invitee != null && !invitee.hasAccepted()) {
                                     btParticipate.setEnabled(true);
-                                } else {
-                                    btParticipate.setEnabled(false);
-                                }
-
-                                tvInviteeCount.setText(String.valueOf(results.size()));
-                                ArrayList<Invitee> acceptedInvitees = getAcceptedInvitees(results);
-
-                                //event organizer + accepted invitees
-                                tvParticipateCount.setText(String.valueOf(1 + acceptedInvitees.size()));
-
-                                //event organizers contribution + contribution from accepted invitees
-                                int amount = event.getParticipationAmount() + acceptedInvitees.size() * event.getParticipationAmount();
-
-                                tvCommittedAmount.setText("$" + String.valueOf(amount));
+                                    btParticipate.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            invitee.setAccepted(true);
+                                            invitee.saveInBackground(new SaveCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    if (e != null) {
+                                                        ParseErrorHandler.handleError(e);
+                                                    } else {
+                                                        btParticipate.setEnabled(false);
+                                                    }
+                                                }
+                                            });
+                                    }
+                                });
+                            }else{
+                                btParticipate.setEnabled(false);
                             }
+
+                            tvInviteeCount.setText(String.valueOf(results.size()));
+                            ArrayList<Invitee> acceptedInvitees = getAcceptedInvitees(results);
+
+                            //event organizer + accepted invitees
+                            tvParticipateCount.setText(String.valueOf(1 + acceptedInvitees.size()));
+
+                            //event organizers contribution + contribution from accepted invitees
+                            int amount = event.getParticipationAmount() + acceptedInvitees.size() * event.getParticipationAmount();
+
+                            tvCommittedAmount.setText("$" + String.valueOf(amount));
                         }
-                    });
+                    }
+                });
                     Picasso.with(EventDetailActivity.this)
                             .load(event.getImageUrl())
                             .into(ivEvent);
@@ -130,12 +149,12 @@ public class EventDetailActivity extends BaseActivity {
         return acceptedInvitees;
     }
 
-    private boolean containsEmail(List<Invitee> invitees, String email) {
+    private Invitee getInvitedUser(List<Invitee> invitees, String email) {
         for (Invitee invitee : invitees) {
             if (email.equals(invitee.getEmail())) {
-                return true;
+                return invitee;
             }
         }
-        return false;
+        return null;
     }
 }

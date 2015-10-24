@@ -1,9 +1,6 @@
 package com.crowdsocial.fragment;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.crowdsocial.model.Event;
 import com.crowdsocial.util.ParseErrorHandler;
@@ -22,17 +19,6 @@ public class ParticipatingEventsListFragment extends EventListFragment {
         ParticipatingEventsListFragment fragment = new ParticipatingEventsListFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-
-        if(ParseUserUtil.isUserLoggedIn()) {
-            populateUserEvents();
-        }
-        return view;
     }
 
     @Override
