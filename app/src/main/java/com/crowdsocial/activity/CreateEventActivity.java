@@ -26,7 +26,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -109,7 +108,6 @@ public class CreateEventActivity extends BaseActivity {
         EditText etEventTitle = (EditText) findViewById(R.id.etEventTitle);
         EditText etDescription = (EditText) findViewById(R.id.etDescription);
         EditText etAddress = (EditText) findViewById(R.id.etAddress);
-        Switch swFree = (Switch) findViewById(R.id.swFree);
         EditText etAmount = (EditText) findViewById(R.id.etAmount);
         ListView lvContacts = (ListView) findViewById(R.id.lvContacts);
         TextView tvDate = (TextView) findViewById(R.id.tvDate);
@@ -119,7 +117,6 @@ public class CreateEventActivity extends BaseActivity {
         event.setUser(ParseUserUtil.getLoggedInUser());
         event.setParticipationAmount(Integer.valueOf(etAmount.getText().toString()));
         event.setParticipationAmount(Integer.valueOf(etAmount.getText().toString()));
-        event.setIsFree(swFree.isChecked());
         event.setDescription(etDescription.getText().toString());
         event.setLocation(etAddress.getText().toString());
         event.setTheme(spTheme.getSelectedItem().toString());
