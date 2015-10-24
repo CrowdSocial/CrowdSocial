@@ -58,4 +58,8 @@ public class EventListFragment extends Fragment {
     public void addAllEvents(List<Event> events) {
         aEvents.addAll(events);
     }
+
+    public void removeAllEvents() {
+        aEvents.clear();
+    }
 }

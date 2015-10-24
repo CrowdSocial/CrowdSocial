@@ -35,6 +35,15 @@ public class ParticipatingEventsListFragment extends EventListFragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        removeAllEvents();
+        if(ParseUserUtil.isUserLoggedIn()) {
+            populateUserEvents();
+        }
+    }
+
     private void populateUserEvents() {
         // Find all events by the current user
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
