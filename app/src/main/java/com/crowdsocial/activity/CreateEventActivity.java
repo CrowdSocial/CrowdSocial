@@ -281,16 +281,9 @@ public class CreateEventActivity extends BaseActivity {
                 Toast.makeText(this, R.string.no_picture_taken, Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == SEND_EMAIL_ACTIVITY_REQUEST_CODE) {
-            if(resultCode == RESULT_OK) {
-                Toast.makeText(
-                        this, R.string.event_created, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(
-                        this, R.string.no_invitations_sent, Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(
+                    this, R.string.event_created, Toast.LENGTH_SHORT).show();
             finish();
-            Intent i = new Intent(this, EventListActivity.class);
-            startActivity(i);
         }
     }
 
