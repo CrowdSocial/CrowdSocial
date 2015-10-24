@@ -13,7 +13,7 @@ import android.widget.Switch;
 
 import com.crowdsocial.R;
 import com.crowdsocial.util.ParseErrorHandler;
-import com.crowdsocial.util.ParseUtil;
+import com.crowdsocial.util.ParseUserUtil;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -69,7 +69,7 @@ public class LoginRegisterDialogFragment extends DialogFragment {
                             }
                         };
 
-                        ParseUtil.loginUser(etEmail.getText().toString(),
+                        ParseUserUtil.loginUser(etEmail.getText().toString(),
                                 etPassword.getText().toString(),
                                 callback);
                     } else {
@@ -87,7 +87,7 @@ public class LoginRegisterDialogFragment extends DialogFragment {
                             }
                         };
 
-                        ParseUtil.createUser(etEmail.getText().toString(),
+                        ParseUserUtil.createUser(etEmail.getText().toString(),
                                 etPassword.getText().toString(),
                                 callback);
                     }

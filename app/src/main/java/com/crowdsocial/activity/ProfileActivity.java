@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.crowdsocial.R;
 import com.crowdsocial.util.GravatarUtil;
-import com.crowdsocial.util.ParseUtil;
+import com.crowdsocial.util.ParseUserUtil;
 import com.squareup.picasso.Picasso;
 
 public class ProfileActivity extends BaseActivity {
@@ -32,7 +32,7 @@ public class ProfileActivity extends BaseActivity {
         btLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseUtil.logoutUser();
+                ParseUserUtil.logoutUser();
                 Intent i = new Intent(ProfileActivity.this, EventListActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);

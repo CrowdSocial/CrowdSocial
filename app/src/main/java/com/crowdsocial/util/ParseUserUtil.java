@@ -4,7 +4,7 @@ import com.parse.LogInCallback;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-public class ParseUtil {
+public class ParseUserUtil {
 
     public static void createUser(String email, String password, SignUpCallback callback) {
         ParseUser user = new ParseUser();

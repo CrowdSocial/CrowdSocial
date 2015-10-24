@@ -9,7 +9,7 @@ import android.view.MenuItem;
 
 import com.crowdsocial.R;
 import com.crowdsocial.dialog.LoginRegisterDialogFragment;
-import com.crowdsocial.util.ParseUtil;
+import com.crowdsocial.util.ParseUserUtil;
 import com.parse.ParseUser;
 
 public class BaseActivity extends AppCompatActivity implements
@@ -28,9 +28,9 @@ public class BaseActivity extends AppCompatActivity implements
     }
 
     public void onProfileClick(MenuItem item) {
-        if(ParseUtil.isUserLoggedIn()) {
+        if(ParseUserUtil.isUserLoggedIn()) {
             Intent i = new Intent(this, ProfileActivity.class);
-            ParseUser parseUser = ParseUtil.getLoggedInUser();
+            ParseUser parseUser = ParseUserUtil.getLoggedInUser();
             i.putExtra("email", parseUser.getEmail());
             startActivity(i);
         } else {
@@ -55,7 +55,7 @@ public class BaseActivity extends AppCompatActivity implements
     }
 
     public void onCreateEventClick(MenuItem item) {
-        if(ParseUtil.isUserLoggedIn()) {
+        if(ParseUserUtil.isUserLoggedIn()) {
             Intent i = new Intent(this, CreateEventActivity.class);
             startActivity(i);
         } else {

@@ -44,6 +44,7 @@ public class EventListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getContext(), EventDetailActivity.class);
+                i.putExtra("eventId", aEvents.getItem(position).getObjectId());
                 startActivity(i);
             }
         });

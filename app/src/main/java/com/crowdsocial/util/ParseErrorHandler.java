@@ -11,6 +11,6 @@ public class ParseErrorHandler {
     }
 
     private static void handleInvalidSessionToken() {
-        ParseUtil.logoutUser();
+        ParseUserUtil.logoutUser();
     }
 }

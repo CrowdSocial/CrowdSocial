@@ -7,7 +7,8 @@
     <string name="when">When</string>
     <string name="where">Where</string>
     <string name="committed">Committed</string>
-    <string name="total_participating">Total Participating</string>
+    <string name="participating">Participating</string>
+    <string name="invited">Invited</string>
     <string name="title_activity_create_event">CreateEventActivity</string>
 
 <!-- TODO: Remove or change this placeholder text -->
@@ -35,6 +36,7 @@
     <string name="event_created">Event Created!</string>
     <string name="no_invitations_sent">No email invitations sent</string>
     <string name="invitation_template">You are invited by {user_email} to join their Event <b>{event_title}!</b> on CrowdSocial.<br/><br/> Click on the link below to accept the invite: {link}</string>
+    <string name="not_able_to_load_event">Not able to load event</string>
 
     <string-array name="theme">
         <item>sport</item>
