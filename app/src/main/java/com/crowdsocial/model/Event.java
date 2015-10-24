@@ -5,6 +5,8 @@ import com.parse.ParseObject;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
+import java.util.Date;
+
 @ParseClassName("Event")
 public class Event extends ParseObject {
     private String title;
@@ -16,6 +18,7 @@ public class Event extends ParseObject {
     private boolean isFree;
     private ParseUser user;
     private String theme;
+    private Date eventDate;
 
     public String getTitle() {
         return getString("title");
@@ -87,6 +90,14 @@ public class Event extends ParseObject {
 
     public void setTheme(String theme) {
         put("theme", theme);
+    }
+
+    public Date getEventDate() {
+        return getDate("eventDate");
+    }
+
+    public void setEventDate(Date eventDate) {
+        put("eventDate", eventDate);
     }
 
     public ParseRelation<Invitee> getInviteesRelation() {

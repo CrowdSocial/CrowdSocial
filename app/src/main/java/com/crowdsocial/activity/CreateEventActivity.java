@@ -3,19 +3,26 @@ package com.crowdsocial.activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -31,10 +38,14 @@ import com.crowdsocial.model.Invitee;
 import com.crowdsocial.util.ParseErrorHandler;
 import com.crowdsocial.util.ParseUtil;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.SaveCallback;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 
 public class CreateEventActivity extends BaseActivity {
@@ -42,6 +53,11 @@ public class CreateEventActivity extends BaseActivity {
     ViewPager viewPager;
     EventCreateStepsPagerAdapter pagerAdapter;
 
+    private final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
+    private final static int SEND_EMAIL_ACTIVITY_REQUEST_CODE = 1035;
+
+    private String eventImageFileName = "photo.jpg";
+    private String eventImageUrl;
     private static final String EMAIL_MSG_TYP = "message/rfc822";
 
     @Override
@@ -106,6 +122,10 @@ public class CreateEventActivity extends BaseActivity {
         event.setLocation(etAddress.getText().toString());
         event.setTheme(spTheme.getSelectedItem().toString());
         event.setTitle(etEventTitle.getText().toString());
+        event.setEventDate(new Date(tvDate.getText().toString()));
+        if(eventImageUrl != null) {
+            event.setImageUrl(eventImageUrl);
+        }
 
         ArrayList<Invitee> invitees = new ArrayList<>();
         for(String email: inviteeEmails) {
@@ -181,10 +201,11 @@ public class CreateEventActivity extends BaseActivity {
             //Create a new DatePickerDialog instance and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
+
+        @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
             //Do something with the date chosen by the user
             TextView tv = (TextView) getActivity().findViewById(R.id.tvDate);
-
             String stringOfDate = day + "/" + month + "/" + year;
             tv.setText(stringOfDate);
         }
@@ -195,9 +216,10 @@ public class CreateEventActivity extends BaseActivity {
         i.setType(EMAIL_MSG_TYP);
         i.putExtra(Intent.EXTRA_EMAIL  , recipients.toArray(new String[recipients.size()]));
         i.putExtra(Intent.EXTRA_SUBJECT, subject);
-        i.putExtra(Intent.EXTRA_TEXT   , body);
+        i.putExtra(Intent.EXTRA_TEXT, body);
         try {
-            startActivity(Intent.createChooser(i, "Send mail..."));
+            startActivityForResult(Intent.createChooser(i, "Send mail..."),
+                    SEND_EMAIL_ACTIVITY_REQUEST_CODE);
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(CreateEventActivity.this,
                     "There are no email clients installed.", Toast.LENGTH_SHORT).show();
@@ -218,5 +240,88 @@ public class CreateEventActivity extends BaseActivity {
         }
 
         return inviteeEmails;
+    }
+
+    public void onLaunchCamera(View view) {
+        // create Intent to take a picture and return control to the calling application
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri(eventImageFileName)); // set the image file name
+        // Start the image capture intent to take photo
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Uri takenPhotoUri = getPhotoFileUri(eventImageFileName);
+                // by this point we have the camera photo on disk
+                Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
+
+                // Convert it to byte
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                // Compress image to lower quality scale 1 - 100
+                takenImage.compress(Bitmap.CompressFormat.PNG, 50, stream);
+                byte[] image = stream.toByteArray();
+                final ParseFile file = new ParseFile(image);
+
+                ImageView ivEvent = (ImageView) findViewById(R.id.ivEvent);
+                ivEvent.setImageBitmap(takenImage);
+
+                file.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            ParseErrorHandler.handleError(e);
+                        } else {
+                            eventImageUrl = file.getUrl();
+                        }
+                    }
+                });
+
+            } else { // Result was a failure
+                Toast.makeText(this, R.string.no_picture_taken, Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == SEND_EMAIL_ACTIVITY_REQUEST_CODE) {
+            if(resultCode == RESULT_OK) {
+                Toast.makeText(
+                        this, R.string.event_created, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(
+                        this, R.string.no_invitations_sent, Toast.LENGTH_SHORT).show();
+            }
+
+            finish();
+            Intent i = new Intent(this, EventListActivity.class);
+            startActivity(i);
+        }
+    }
+
+    // Returns the Uri for a photo stored on disk given the fileName
+    public Uri getPhotoFileUri(String fileName) {
+        // Only continue if the SD Card is mounted
+        if (isExternalStorageAvailable()) {
+            // Get safe storage directory for photos
+            File mediaStorageDir = new File(
+                    Environment.getExternalStoragePublicDirectory(
+                            Environment.DIRECTORY_PICTURES), getClass().getName());
+
+            // Create the storage directory if it does not exist
+            if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+                Log.d(getClass().getName(), "failed to create directory");
+            }
+
+            // Return the file target for the photo based on filename
+            return Uri.fromFile(new File(mediaStorageDir.getPath() + File.separator + fileName));
+        }
+        return null;
+    }
+
+    private boolean isExternalStorageAvailable() {
+        String state = Environment.getExternalStorageState();
+        if (state.equals(Environment.MEDIA_MOUNTED)) {
+            return true;
+        }
+        return false;
     }
 }
