@@ -6,8 +6,8 @@ import com.parse.ParseObject;
 @ParseClassName("Invitee")
 public class Invitee extends ParseObject {
 
-    public String email;
-    public boolean accepted;
+    private String email;
+    private boolean accepted;
 
     public String getEmail() {
         return getString("email");
