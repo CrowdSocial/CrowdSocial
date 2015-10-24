@@ -3,6 +3,7 @@ package com.crowdsocial.activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import com.crowdsocial.R;
 import com.crowdsocial.model.Event;
 import com.crowdsocial.model.Invitee;
 import com.crowdsocial.util.ParseErrorHandler;
+import com.crowdsocial.util.ParseUserUtil;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -18,6 +20,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +33,8 @@ public class EventDetailActivity extends BaseActivity {
     private TextView tvDateTime;
     private TextView tvDescription;
     private TextView tvInviteeCount;
+    private TextView tvVenue;
+    private Button btParticipate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,8 @@ public class EventDetailActivity extends BaseActivity {
         tvDescription = (TextView) findViewById(R.id.tvDescription);
         tvCommittedAmount = (TextView) findViewById(R.id.tvCommittedAmount);
         tvInviteeCount = (TextView) findViewById(R.id.tvInviteeCount);
+        tvVenue = (TextView) findViewById(R.id.tvVenue);
+        btParticipate = (Button) findViewById(R.id.btParticipate);
 
         String eventId = getIntent().getStringExtra("eventId");
 
@@ -69,10 +76,24 @@ public class EventDetailActivity extends BaseActivity {
                             if (e != null) {
                                 ParseErrorHandler.handleError(e);
                             } else {
+                                if (event.getUser().getEmail().equals(ParseUserUtil.getLoggedInUser().getEmail())) {
+                                    btParticipate.setEnabled(false);
+                                } else if (containsEmail(results, ParseUserUtil.getLoggedInUser().getEmail())) {
+                                    btParticipate.setEnabled(true);
+                                } else {
+                                    btParticipate.setEnabled(false);
+                                }
+
                                 tvInviteeCount.setText(String.valueOf(results.size()));
                                 ArrayList<Invitee> acceptedInvitees = getAcceptedInvitees(results);
-                                tvParticipateCount.setText(String.valueOf(acceptedInvitees.size()));
-                                tvCommittedAmount.setText("$" + String.valueOf(acceptedInvitees.size() * event.getParticipationAmount()));
+
+                                //event organizer + accepted invitees
+                                tvParticipateCount.setText(String.valueOf(1 + acceptedInvitees.size()));
+
+                                //event organizers contribution + contribution from accepted invitees
+                                int amount = event.getParticipationAmount() + acceptedInvitees.size() * event.getParticipationAmount();
+
+                                tvCommittedAmount.setText("$" + String.valueOf(amount));
                             }
                         }
                     });
@@ -80,8 +101,11 @@ public class EventDetailActivity extends BaseActivity {
                             .load(event.getImageUrl())
                             .into(ivEvent);
                     tvDescription.setText(event.getDescription());
+                    tvVenue.setText(event.getLocation());
                     tvAmount.setText("$" + String.valueOf(event.getParticipationAmount()));
-                    tvDateTime.setText("June 25");
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
+                    tvDateTime.setText(dateFormat.format(event.getEventDate()));
                 }
             }
         });
@@ -104,5 +128,14 @@ public class EventDetailActivity extends BaseActivity {
             }
         }
         return acceptedInvitees;
+    }
+
+    private boolean containsEmail(List<Invitee> invitees, String email) {
+        for (Invitee invitee : invitees) {
+            if (email.equals(invitee.getEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

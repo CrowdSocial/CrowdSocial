@@ -1,7 +1,6 @@
 package com.crowdsocial.activity;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -43,6 +41,7 @@ import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -59,6 +58,7 @@ public class CreateEventActivity extends BaseActivity {
 
     private String eventImageFileName = "photo.jpg";
     private String eventImageUrl;
+    private Date eventDate;
     private static final String EMAIL_MSG_TYP = "text/html";
 
     @Override
@@ -98,8 +98,26 @@ public class CreateEventActivity extends BaseActivity {
     }
 
     public void setEventDate(View view) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "Date Picker");
+        Calendar c = Calendar.getInstance();
+        DatePickerDialog datePickerDialog =
+                new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                Calendar c = Calendar.getInstance();
+                c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                c.set(Calendar.MONTH, monthOfYear);
+                c.set(Calendar.YEAR, year);
+
+                eventDate = c.getTime();
+
+                TextView tv = (TextView) findViewById(R.id.tvDate);
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
+                tv.setText(dateFormat.format(eventDate));
+            }
+        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
     }
 
     public void createEvent(View view) {
@@ -121,7 +139,7 @@ public class CreateEventActivity extends BaseActivity {
         event.setLocation(etAddress.getText().toString());
         event.setTheme(spTheme.getSelectedItem().toString());
         event.setTitle(etEventTitle.getText().toString());
-        event.setEventDate(new Date(tvDate.getText().toString()));
+        event.setEventDate(eventDate);
         if(eventImageUrl != null) {
             event.setImageUrl(eventImageUrl);
         }
@@ -154,7 +172,6 @@ public class CreateEventActivity extends BaseActivity {
                                                     ParseUserUtil.getLoggedInUser().getEmail(),
                                                     event.getTitle(),
                                                     event.getImageUrl(),
-                                                    //todo change this to a link to the event
                                                     EMAIL_URL + "/event/" + eventId)
                                                     , inviteeEmails);
                                 }
@@ -190,30 +207,6 @@ public class CreateEventActivity extends BaseActivity {
             return 3;
         }
 
-    }
-
-    public static class DatePickerFragment
-            extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState){
-            //Use the current date as the default date in the date picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            //Create a new DatePickerDialog instance and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            //Do something with the date chosen by the user
-            TextView tv = (TextView) getActivity().findViewById(R.id.tvDate);
-            String stringOfDate = day + "/" + month + "/" + year;
-            tv.setText(stringOfDate);
-        }
     }
 
     private void sendEmail(String subject, String body, HashSet<String> recipients) {
