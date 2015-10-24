@@ -37,7 +37,7 @@ import com.crowdsocial.fragment.Step2Fragment;
 import com.crowdsocial.model.Event;
 import com.crowdsocial.model.Invitee;
 import com.crowdsocial.util.ParseErrorHandler;
-import com.crowdsocial.util.ParseUtil;
+import com.crowdsocial.util.ParseUserUtil;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.SaveCallback;
@@ -116,7 +116,7 @@ public class CreateEventActivity extends BaseActivity {
         final HashSet<String> inviteeEmails = getEmailsFromListView(lvContacts);
 
         final Event event = new Event();
-        event.setUser(ParseUtil.getLoggedInUser());
+        event.setUser(ParseUserUtil.getLoggedInUser());
         event.setParticipationAmount(Integer.valueOf(etAmount.getText().toString()));
         event.setParticipationAmount(Integer.valueOf(etAmount.getText().toString()));
         event.setIsFree(swFree.isChecked());
@@ -154,7 +154,7 @@ public class CreateEventActivity extends BaseActivity {
                                     sendEmail(
                                             getString(R.string.invitation_crowdsocial)
                                             , getEmailBody(
-                                                    ParseUtil.getLoggedInUser().getEmail(),
+                                                    ParseUserUtil.getLoggedInUser().getEmail(),
                                                     event.getTitle(),
                                                     event.getImageUrl(),
                                                     //todo change this to a link to the event

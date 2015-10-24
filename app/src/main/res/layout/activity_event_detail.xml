@@ -42,6 +42,33 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@+id/rlParticipate"
+        android:id="@+id/rlInvitee"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/tvInviteeCount"
+            android:layout_marginEnd="20dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_centerInParent="true"
+            android:text="@string/invited"
+            android:id="@+id/tvInvited"
+            android:layout_marginStart="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/rlInvitee"
         android:id="@+id/rlParticipateCount"
         android:layout_alignParentStart="true">
 
@@ -59,7 +86,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_centerInParent="true"
-            android:text="@string/total_participating"
+            android:text="@string/participating"
             android:id="@+id/tvParticipating"
             android:layout_marginStart="20dp"
             android:layout_alignParentStart="true"
