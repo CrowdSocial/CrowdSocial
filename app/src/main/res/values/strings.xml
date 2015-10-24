@@ -31,6 +31,9 @@
     <string name="description">Description</string>
     <string name="Free">Free</string>
     <string name="invitation_crowdsocial">Invitation to join Event on CrowdSocial</string>
+    <string name="no_picture_taken">No Picture was taken</string>
+    <string name="event_created">Event Created!</string>
+    <string name="no_invitations_sent">No email invitations sent</string>
     <string-array name="theme">
         <item>sport</item>
         <item>tasting</item>

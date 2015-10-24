@@ -49,4 +49,21 @@
         android:layout_alignParentEnd="true"
         android:layout_gravity="right|bottom"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click Image"
+        android:id="@+id/btnCamera"
+        android:onClick="onLaunchCamera"
+        android:layout_below="@id/etDescription"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivEvent"
+        android:layout_below="@+id/btnCamera"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="73dp"
+        android:layout_marginTop="47dp"/>
+
 </RelativeLayout>
