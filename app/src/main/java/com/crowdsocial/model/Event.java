@@ -15,7 +15,6 @@ public class Event extends ParseObject {
     private int maxParticipants;
     private int participationAmount;
     private String imageUrl;
-    private boolean isFree;
     private ParseUser user;
     private String theme;
     private Date eventDate;
@@ -66,14 +65,6 @@ public class Event extends ParseObject {
 
     public void setImageUrl(String imageUrl) {
         put("imageUrl", imageUrl);
-    }
-
-    public boolean isFree() {
-        return getBoolean("isFree");
-    }
-
-    public void setIsFree(boolean isFree) {
-        put("isFree", isFree);
     }
 
     public void setUser(ParseUser user) {

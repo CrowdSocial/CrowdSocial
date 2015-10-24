@@ -72,9 +72,7 @@ public class EventDetailActivity extends BaseActivity {
                                 tvInviteeCount.setText(String.valueOf(results.size()));
                                 ArrayList<Invitee> acceptedInvitees = getAcceptedInvitees(results);
                                 tvParticipateCount.setText(String.valueOf(acceptedInvitees.size()));
-                                if(!event.isFree()) {
-                                    tvCommittedAmount.setText("$" + String.valueOf(acceptedInvitees.size() * event.getParticipationAmount()));
-                                }
+                                tvCommittedAmount.setText("$" + String.valueOf(acceptedInvitees.size() * event.getParticipationAmount()));
                             }
                         }
                     });
