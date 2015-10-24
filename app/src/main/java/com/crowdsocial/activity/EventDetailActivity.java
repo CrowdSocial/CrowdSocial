@@ -78,44 +78,56 @@ public class EventDetailActivity extends BaseActivity {
                             if (e != null) {
                                 ParseErrorHandler.handleError(e);
                             } else {
+                                tvInviteeCount.setText(String.valueOf(results.size()));
+                                final ArrayList<Invitee> acceptedInvitees = getAcceptedInvitees(results);
+
+                                //event organizer + accepted invitees
+                                tvParticipateCount.setText(String.valueOf(1 + acceptedInvitees.size()));
+
+                                //event organizers contribution + contribution from accepted invitees
+                                int amount = (acceptedInvitees.size() + 1) * event.getParticipationAmount();
+
+                                tvCommittedAmount.setText("$" + String.valueOf(amount));
+
                                 final Invitee invitee = getInvitedUser(results, ParseUserUtil.getLoggedInUser().getEmail());
-                                if (event.getUser().getEmail().equals(ParseUserUtil.getLoggedInUser().getEmail())) {
-                                    btParticipate.setEnabled(false);
-                                } else if (invitee != null && !invitee.hasAccepted()) {
-                                    btParticipate.setEnabled(true);
-                                    btParticipate.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            invitee.setAccepted(true);
-                                            invitee.saveInBackground(new SaveCallback() {
-                                                @Override
-                                                public void done(ParseException e) {
-                                                    if (e != null) {
-                                                        ParseErrorHandler.handleError(e);
-                                                    } else {
-                                                        btParticipate.setEnabled(false);
+                                try {
+                                    if (event.getUser().fetchIfNeeded().getEmail().equals(ParseUserUtil.getLoggedInUser().getEmail())) {
+                                        btParticipate.setEnabled(false);
+                                    } else if (invitee != null && !invitee.hasAccepted()) {
+                                        btParticipate.setEnabled(true);
+                                        btParticipate.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                invitee.setAccepted(true);
+                                                invitee.saveInBackground(new SaveCallback() {
+                                                    @Override
+                                                    public void done(ParseException e) {
+                                                        if (e != null) {
+                                                            ParseErrorHandler.handleError(e);
+                                                        } else {
+                                                            btParticipate.setEnabled(false);
+
+                                                            //event organizer + accepted invitees + current invitee
+                                                            tvParticipateCount.setText(String.valueOf(1 + 1 + acceptedInvitees.size()));
+
+                                                            //event organizers contribution + contribution from accepted invitees + current invitees contribution
+                                                            int amount = (acceptedInvitees.size() + 1 + 1) * event.getParticipationAmount();
+
+                                                            tvCommittedAmount.setText("$" + String.valueOf(amount));
+                                                        }
                                                     }
-                                                }
-                                            });
+                                                });
+                                            }
+                                        });
+                                    } else {
+                                        btParticipate.setEnabled(false);
                                     }
-                                });
-                            }else{
-                                btParticipate.setEnabled(false);
+                                } catch (ParseException ex) {
+                                    ParseErrorHandler.handleError(ex);
+                                }
                             }
-
-                            tvInviteeCount.setText(String.valueOf(results.size()));
-                            ArrayList<Invitee> acceptedInvitees = getAcceptedInvitees(results);
-
-                            //event organizer + accepted invitees
-                            tvParticipateCount.setText(String.valueOf(1 + acceptedInvitees.size()));
-
-                            //event organizers contribution + contribution from accepted invitees
-                            int amount = event.getParticipationAmount() + acceptedInvitees.size() * event.getParticipationAmount();
-
-                            tvCommittedAmount.setText("$" + String.valueOf(amount));
                         }
-                    }
-                });
+                    });
                     Picasso.with(EventDetailActivity.this)
                             .load(event.getImageUrl())
                             .into(ivEvent);

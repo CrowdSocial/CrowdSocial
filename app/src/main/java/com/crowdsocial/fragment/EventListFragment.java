@@ -51,10 +51,6 @@ public class EventListFragment extends Fragment {
         return view;
     }
 
-    public void insertEvent(Event event, int pos) {
-        aEvents.insert(event, pos);
-    }
-
     public void addAllEvents(List<Event> events) {
         aEvents.addAll(events);
     }
