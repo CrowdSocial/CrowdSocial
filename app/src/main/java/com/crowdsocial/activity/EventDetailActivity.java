@@ -2,6 +2,7 @@ package com.crowdsocial.activity;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crowdsocial.R;
+import com.crowdsocial.dialog.InviteeListDialogFragment;
 import com.crowdsocial.model.Event;
 import com.crowdsocial.model.Invitee;
 import com.crowdsocial.util.ParseErrorHandler;
@@ -37,6 +39,8 @@ public class EventDetailActivity extends BaseActivity {
     private TextView tvInviteeCount;
     private TextView tvVenue;
     private Button btParticipate;
+    private TextView tvParticipating;
+    private TextView tvInvited;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,8 @@ public class EventDetailActivity extends BaseActivity {
         tvInviteeCount = (TextView) findViewById(R.id.tvInviteeCount);
         tvVenue = (TextView) findViewById(R.id.tvVenue);
         btParticipate = (Button) findViewById(R.id.btParticipate);
+        tvParticipating = (TextView) findViewById(R.id.tvParticipating);
+        tvInvited = (TextView) findViewById(R.id.tvInvited);
 
         String eventId = getIntent().getStringExtra("eventId");
 
@@ -74,48 +80,85 @@ public class EventDetailActivity extends BaseActivity {
                 } else {
                     final Event event = (Event) object;
                     event.getInviteesRelation().getQuery().findInBackground(new FindCallback<Invitee>() {
-                        public void done(List<Invitee> results, ParseException e) {
+                        public void done(final List<Invitee> results, ParseException e) {
                             if (e != null) {
                                 ParseErrorHandler.handleError(e);
                             } else {
-                                final Invitee invitee = getInvitedUser(results, ParseUserUtil.getLoggedInUser().getEmail());
-                                if (event.getUser().getEmail().equals(ParseUserUtil.getLoggedInUser().getEmail())) {
-                                    btParticipate.setEnabled(false);
-                                } else if (invitee != null && !invitee.hasAccepted()) {
-                                    btParticipate.setEnabled(true);
-                                    btParticipate.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            invitee.setAccepted(true);
-                                            invitee.saveInBackground(new SaveCallback() {
-                                                @Override
-                                                public void done(ParseException e) {
-                                                    if (e != null) {
-                                                        ParseErrorHandler.handleError(e);
-                                                    } else {
-                                                        btParticipate.setEnabled(false);
-                                                    }
-                                                }
-                                            });
+                                try {
+                                    if (results.size() > 0 &&
+                                            event.getUser().fetchIfNeeded().getEmail().equals(ParseUserUtil.getLoggedInUser().getEmail())) {
+                                        tvInvited.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                showInviteeDialog(results);
+                                            }
+                                        });
                                     }
-                                });
-                            }else{
-                                btParticipate.setEnabled(false);
+                                } catch (ParseException ex) {
+                                    ParseErrorHandler.handleError(ex);
+                                }
+                                tvInviteeCount.setText(String.valueOf(results.size()));
+                                final ArrayList<Invitee> acceptedInvitees = getAcceptedInvitees(results);
+                                try {
+                                    if(acceptedInvitees.size() > 0 &&
+                                            event.getUser().fetchIfNeeded().getEmail().equals(ParseUserUtil.getLoggedInUser().getEmail())) {
+                                        tvParticipating.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                showInviteeDialog(acceptedInvitees);
+                                            }
+                                        });
+                                    }
+                                } catch (ParseException ex) {
+                                    ParseErrorHandler.handleError(ex);
+                                }
+                                //event organizer + accepted invitees
+                                tvParticipateCount.setText(String.valueOf(1 + acceptedInvitees.size()));
+
+                                //event organizers contribution + contribution from accepted invitees
+                                int amount = (acceptedInvitees.size() + 1) * event.getParticipationAmount();
+
+                                tvCommittedAmount.setText("$" + String.valueOf(amount));
+
+                                final Invitee invitee = getInvitedUser(results, ParseUserUtil.getLoggedInUser().getEmail());
+                                try {
+                                    if (event.getUser().fetchIfNeeded().getEmail().equals(ParseUserUtil.getLoggedInUser().getEmail())) {
+                                        btParticipate.setEnabled(false);
+                                    } else if (invitee != null && !invitee.hasAccepted()) {
+                                        btParticipate.setEnabled(true);
+                                        btParticipate.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                invitee.setAccepted(true);
+                                                invitee.saveInBackground(new SaveCallback() {
+                                                    @Override
+                                                    public void done(ParseException e) {
+                                                        if (e != null) {
+                                                            ParseErrorHandler.handleError(e);
+                                                        } else {
+                                                            btParticipate.setEnabled(false);
+
+                                                            //event organizer + accepted invitees + current invitee
+                                                            tvParticipateCount.setText(String.valueOf(1 + 1 + acceptedInvitees.size()));
+
+                                                            //event organizers contribution + contribution from accepted invitees + current invitees contribution
+                                                            int amount = (acceptedInvitees.size() + 1 + 1) * event.getParticipationAmount();
+
+                                                            tvCommittedAmount.setText("$" + String.valueOf(amount));
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    } else {
+                                        btParticipate.setEnabled(false);
+                                    }
+                                } catch (ParseException ex) {
+                                    ParseErrorHandler.handleError(ex);
+                                }
                             }
-
-                            tvInviteeCount.setText(String.valueOf(results.size()));
-                            ArrayList<Invitee> acceptedInvitees = getAcceptedInvitees(results);
-
-                            //event organizer + accepted invitees
-                            tvParticipateCount.setText(String.valueOf(1 + acceptedInvitees.size()));
-
-                            //event organizers contribution + contribution from accepted invitees
-                            int amount = event.getParticipationAmount() + acceptedInvitees.size() * event.getParticipationAmount();
-
-                            tvCommittedAmount.setText("$" + String.valueOf(amount));
                         }
-                    }
-                });
+                    });
                     Picasso.with(EventDetailActivity.this)
                             .load(event.getImageUrl())
                             .into(ivEvent);
@@ -137,6 +180,13 @@ public class EventDetailActivity extends BaseActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         return super.onOptionsItemSelected(item);
     }
+
+    private void showInviteeDialog(List<Invitee> invitees) {
+        FragmentManager fm = getSupportFragmentManager();
+        InviteeListDialogFragment dialogFragment = InviteeListDialogFragment.newInstance(invitees);
+        dialogFragment.show(fm, "fragment_invitee_list");
+    }
+
 
     private ArrayList<Invitee> getAcceptedInvitees(List<Invitee> invitees) {
         ArrayList<Invitee> acceptedInvitees = new ArrayList<>();

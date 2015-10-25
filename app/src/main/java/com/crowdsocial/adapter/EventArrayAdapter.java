@@ -18,7 +18,6 @@ public class EventArrayAdapter extends ArrayAdapter<Event> {
 
     private static class ViewHolder {
         private ImageView ivEvent;
-        private TextView tvLocation;
         private TextView tvTitle;
         private TextView tvDescription;
     }
