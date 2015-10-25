@@ -39,6 +39,7 @@
     <string name="not_able_to_load_event">Not able to load event</string>
     <string name="invalid_login">Invalid login credentials</string>
     <string name="invalid_registration">User already registered</string>
+    <string name="no_email_clients_installed">There are no email clients installed.</string>
 
     <string-array name="theme">
         <item>sport</item>
