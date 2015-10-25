@@ -33,6 +33,7 @@ import com.crowdsocial.fragment.Step1Fragment;
 import com.crowdsocial.fragment.Step2Fragment;
 import com.crowdsocial.model.Event;
 import com.crowdsocial.model.Invitee;
+import com.crowdsocial.util.BitmapScaler;
 import com.crowdsocial.util.ParseErrorHandler;
 import com.crowdsocial.util.ParseUserUtil;
 import com.parse.ParseException;
@@ -257,11 +258,11 @@ public class CreateEventActivity extends BaseActivity {
     private ArrayList<Invitee> getInviteesFromListView(ListView lvContacts) {
         ArrayList<Invitee> invitees = new ArrayList<>();
         for(int i = 0; i < lvContacts.getAdapter().getCount(); i++) {
-            CheckBox cbContact = (CheckBox)lvContacts.getChildAt(i).findViewById(R.id.cbContact);
+            CheckBox cbContact = (CheckBox) getViewByPosition(i, lvContacts).findViewById(R.id.cbContact);
             if(cbContact.isChecked()) {
 
-                TextView tvEmail = (TextView) lvContacts.getChildAt(i).findViewById(R.id.tvEmail);
-                TextView tvName = (TextView) lvContacts.getChildAt(i).findViewById(R.id.tvName);
+                TextView tvEmail = (TextView) getViewByPosition(i, lvContacts).findViewById(R.id.tvEmail);
+                TextView tvName = (TextView) getViewByPosition(i, lvContacts).findViewById(R.id.tvName);
                 String email = tvEmail.getText().toString();
                 String name = tvName.getText().toString();
 
@@ -297,10 +298,12 @@ public class CreateEventActivity extends BaseActivity {
                 // by this point we have the camera photo on disk
                 Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
 
+                takenImage = BitmapScaler.scaleToFitHeight(takenImage, 400);
+
                 // Convert it to byte
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 // Compress image to lower quality scale 1 - 100
-                takenImage.compress(Bitmap.CompressFormat.PNG, 50, stream);
+                takenImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] image = stream.toByteArray();
                 final ParseFile file = new ParseFile(image);
 
@@ -372,5 +375,17 @@ public class CreateEventActivity extends BaseActivity {
         }
 
         return emails;
+    }
+
+    private View getViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+            return listView.getAdapter().getView(pos, null, listView);
+        } else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
+        }
     }
 }
