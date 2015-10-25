@@ -43,6 +43,7 @@ public class ParticipatingEventsListFragment extends EventListFragment {
                     for (Invitee i : objects) {
                         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
                         query.whereEqualTo("invitees", i);
+                        query.orderByAscending("eventDate");
                         query.findInBackground(new FindCallback<Event>() {
                             @Override
                             public void done(List<Event> objects, ParseException e) {
