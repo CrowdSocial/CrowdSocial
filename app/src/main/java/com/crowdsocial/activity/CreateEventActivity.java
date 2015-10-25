@@ -128,8 +128,6 @@ public class CreateEventActivity extends BaseActivity {
         EditText etAddress = (EditText) findViewById(R.id.etAddress);
         EditText etAmount = (EditText) findViewById(R.id.etAmount);
         ListView lvContacts = (ListView) findViewById(R.id.lvContacts);
-        TextView tvDate = (TextView) findViewById(R.id.tvDate);
-        final HashSet<String> inviteeEmails = getEmailsFromListView(lvContacts);
 
         final Event event = new Event();
         event.setUser(ParseUserUtil.getLoggedInUser());
@@ -144,14 +142,12 @@ public class CreateEventActivity extends BaseActivity {
             event.setImageUrl(eventImageUrl);
         }
 
-        ArrayList<Invitee> invitees = new ArrayList<>();
-        for(String email: inviteeEmails) {
-            Invitee invitee = new Invitee();
-            invitee.setAccepted(false);
-            invitee.setEmail(email);
-            invitees.add(invitee);
-            event.addInvitee(invitee);
+        final ArrayList<Invitee> invitees = getInviteesFromListView(lvContacts);
+
+        for(Invitee i : invitees) {
+            event.addInvitee(i);
         }
+
         Invitee.saveAllInBackground(invitees, new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -164,7 +160,7 @@ public class CreateEventActivity extends BaseActivity {
                             if (e != null) {
                                 ParseErrorHandler.handleError(e);
                             } else {
-                                if (inviteeEmails.size() > 0) {
+                                if (invitees.size() > 0) {
                                     String eventId = event.getObjectId();
                                     sendEmail(
                                             getString(R.string.invitation_crowdsocial)
@@ -173,7 +169,7 @@ public class CreateEventActivity extends BaseActivity {
                                                     event.getTitle(),
                                                     event.getImageUrl(),
                                                     EMAIL_URL + "/event/" + eventId)
-                                                    , inviteeEmails);
+                                                    , getInviteeEmails(invitees));
                                 }
                             }
                         }
@@ -224,20 +220,31 @@ public class CreateEventActivity extends BaseActivity {
         }
     }
 
-    private HashSet<String> getEmailsFromListView(ListView lvContacts) {
-        HashSet<String> inviteeEmails = new HashSet<>();
+    private ArrayList<Invitee> getInviteesFromListView(ListView lvContacts) {
+        ArrayList<Invitee> invitees = new ArrayList<>();
         for(int i = 0; i < lvContacts.getAdapter().getCount(); i++) {
             CheckBox cbContact = (CheckBox)lvContacts.getChildAt(i).findViewById(R.id.cbContact);
             if(cbContact.isChecked()) {
+
                 TextView tvEmail = (TextView) lvContacts.getChildAt(i).findViewById(R.id.tvEmail);
+                TextView tvName = (TextView) lvContacts.getChildAt(i).findViewById(R.id.tvName);
                 String email = tvEmail.getText().toString();
+                String name = tvName.getText().toString();
+
+                Invitee invitee = new Invitee();
                 if(!TextUtils.isEmpty(email)) {
-                    inviteeEmails.add(email);
+                    invitee.setEmail(email);
                 }
+                if(!TextUtils.isEmpty(name)) {
+                    invitee.setName(tvName.getText().toString());
+                }
+                invitee.setAccepted(false);
+
+                invitees.add(invitee);
             }
         }
 
-        return inviteeEmails;
+        return invitees;
     }
 
     public void onLaunchCamera(View view) {
@@ -320,5 +327,16 @@ public class CreateEventActivity extends BaseActivity {
         return body.replace("{user_email}", email)
                 .replace("{event_title}", title)
                 .replace("{link}", link);
+    }
+
+    private HashSet<String> getInviteeEmails(ArrayList<Invitee> invitees) {
+        HashSet<String> emails = new HashSet<>();
+        for (Invitee i : invitees) {
+            if(!TextUtils.isEmpty(i.getEmail())) {
+                emails.add(i.getEmail());
+            }
+        }
+
+        return emails;
     }
 }

@@ -2,6 +2,7 @@ package com.crowdsocial.activity;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crowdsocial.R;
+import com.crowdsocial.dialog.InviteeListDialogFragment;
 import com.crowdsocial.model.Event;
 import com.crowdsocial.model.Invitee;
 import com.crowdsocial.util.ParseErrorHandler;
@@ -37,6 +39,8 @@ public class EventDetailActivity extends BaseActivity {
     private TextView tvInviteeCount;
     private TextView tvVenue;
     private Button btParticipate;
+    private TextView tvParticipating;
+    private TextView tvInvited;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,8 @@ public class EventDetailActivity extends BaseActivity {
         tvInviteeCount = (TextView) findViewById(R.id.tvInviteeCount);
         tvVenue = (TextView) findViewById(R.id.tvVenue);
         btParticipate = (Button) findViewById(R.id.btParticipate);
+        tvParticipating = (TextView) findViewById(R.id.tvParticipating);
+        tvInvited = (TextView) findViewById(R.id.tvInvited);
 
         String eventId = getIntent().getStringExtra("eventId");
 
@@ -74,13 +80,38 @@ public class EventDetailActivity extends BaseActivity {
                 } else {
                     final Event event = (Event) object;
                     event.getInviteesRelation().getQuery().findInBackground(new FindCallback<Invitee>() {
-                        public void done(List<Invitee> results, ParseException e) {
+                        public void done(final List<Invitee> results, ParseException e) {
                             if (e != null) {
                                 ParseErrorHandler.handleError(e);
                             } else {
+                                try {
+                                    if (results.size() > 0 &&
+                                            event.getUser().fetchIfNeeded().getEmail().equals(ParseUserUtil.getLoggedInUser().getEmail())) {
+                                        tvInvited.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                showInviteeDialog(results);
+                                            }
+                                        });
+                                    }
+                                } catch (ParseException ex) {
+                                    ParseErrorHandler.handleError(ex);
+                                }
                                 tvInviteeCount.setText(String.valueOf(results.size()));
                                 final ArrayList<Invitee> acceptedInvitees = getAcceptedInvitees(results);
-
+                                try {
+                                    if(acceptedInvitees.size() > 0 &&
+                                            event.getUser().fetchIfNeeded().getEmail().equals(ParseUserUtil.getLoggedInUser().getEmail())) {
+                                        tvParticipating.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                showInviteeDialog(acceptedInvitees);
+                                            }
+                                        });
+                                    }
+                                } catch (ParseException ex) {
+                                    ParseErrorHandler.handleError(ex);
+                                }
                                 //event organizer + accepted invitees
                                 tvParticipateCount.setText(String.valueOf(1 + acceptedInvitees.size()));
 
@@ -149,6 +180,13 @@ public class EventDetailActivity extends BaseActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         return super.onOptionsItemSelected(item);
     }
+
+    private void showInviteeDialog(List<Invitee> invitees) {
+        FragmentManager fm = getSupportFragmentManager();
+        InviteeListDialogFragment dialogFragment = InviteeListDialogFragment.newInstance(invitees);
+        dialogFragment.show(fm, "fragment_invitee_list");
+    }
+
 
     private ArrayList<Invitee> getAcceptedInvitees(List<Invitee> invitees) {
         ArrayList<Invitee> acceptedInvitees = new ArrayList<>();
