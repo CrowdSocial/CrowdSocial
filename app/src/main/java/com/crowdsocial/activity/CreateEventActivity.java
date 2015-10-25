@@ -122,6 +122,12 @@ public class CreateEventActivity extends BaseActivity {
 
     public void createEvent(View view) {
 
+        if(!validEvent()) {
+            Toast.makeText(CreateEventActivity.this,
+                    "Please enter valid Event details", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Spinner spTheme = (Spinner) findViewById(R.id.spTheme);
         EditText etEventTitle = (EditText) findViewById(R.id.etEventTitle);
         EditText etDescription = (EditText) findViewById(R.id.etDescription);
@@ -180,6 +186,34 @@ public class CreateEventActivity extends BaseActivity {
         });
     }
 
+    private boolean validEvent() {
+        Spinner spTheme = (Spinner) findViewById(R.id.spTheme);
+        EditText etEventTitle = (EditText) findViewById(R.id.etEventTitle);
+        EditText etDescription = (EditText) findViewById(R.id.etDescription);
+        EditText etAddress = (EditText) findViewById(R.id.etAddress);
+        EditText etAmount = (EditText) findViewById(R.id.etAmount);
+        ListView lvContacts = (ListView) findViewById(R.id.lvContacts);
+
+        if(spTheme.getSelectedItem() == null)
+            return false;
+        if(TextUtils.isEmpty(etEventTitle.getText().toString()))
+            return false;
+        if(TextUtils.isEmpty(etAddress.getText().toString()))
+            return false;
+        if(TextUtils.isEmpty(etDescription.getText().toString()))
+            return false;
+        try {
+            Integer.parseInt(etAmount.getText().toString());
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        if(eventDate == null)
+            return false;
+        if(getInviteesFromListView(lvContacts).size() == 0)
+            return false;
+        return true;
+    }
+
     public class EventCreateStepsPagerAdapter extends FragmentStatePagerAdapter {
 
         public EventCreateStepsPagerAdapter(FragmentManager fm) {
@@ -216,7 +250,7 @@ public class CreateEventActivity extends BaseActivity {
                     SEND_EMAIL_ACTIVITY_REQUEST_CODE);
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(CreateEventActivity.this,
-                    "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                    R.string.no_email_clients_installed, Toast.LENGTH_SHORT).show();
         }
     }
 

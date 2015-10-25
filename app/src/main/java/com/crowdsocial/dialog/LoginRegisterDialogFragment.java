@@ -10,9 +10,9 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.crowdsocial.R;
-import com.crowdsocial.util.ParseErrorHandler;
 import com.crowdsocial.util.ParseUserUtil;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -59,7 +59,8 @@ public class LoginRegisterDialogFragment extends DialogFragment {
                         LogInCallback callback = new LogInCallback() {
                             public void done(ParseUser user, ParseException e) {
                                 if(e != null) {
-                                    ParseErrorHandler.handleError(e);
+                                    Toast.makeText(
+                                            getContext(), R.string.invalid_login, Toast.LENGTH_SHORT).show();
                                 } else {
                                     LoginRegisterDialogListener listener =
                                             (LoginRegisterDialogListener) getActivity();
@@ -77,7 +78,8 @@ public class LoginRegisterDialogFragment extends DialogFragment {
                         SignUpCallback callback = new SignUpCallback() {
                             public void done(ParseException e) {
                                 if(e != null) {
-                                    ParseErrorHandler.handleError(e);
+                                    Toast.makeText(
+                                            getContext(), R.string.invalid_registration, Toast.LENGTH_SHORT).show();
                                 } else {
                                     LoginRegisterDialogListener listener =
                                             (LoginRegisterDialogListener) getActivity();

@@ -37,6 +37,9 @@
     <string name="no_invitations_sent">No email invitations sent</string>
     <string name="invitation_template">You are invited by {user_email} to join their Event <b>{event_title}!</b> on CrowdSocial.<br/><br/> Click on the link below to accept the invite: {link}</string>
     <string name="not_able_to_load_event">Not able to load event</string>
+    <string name="invalid_login">Invalid login credentials</string>
+    <string name="invalid_registration">User already registered</string>
+    <string name="no_email_clients_installed">There are no email clients installed.</string>
 
     <string-array name="theme">
         <item>sport</item>

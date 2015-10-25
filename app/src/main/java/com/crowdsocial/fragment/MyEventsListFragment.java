@@ -35,6 +35,7 @@ public class MyEventsListFragment extends EventListFragment {
         // Find all events by the current user
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
         query.whereEqualTo("user", ParseUserUtil.getLoggedInUser());
+        query.orderByAscending("eventDate");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
