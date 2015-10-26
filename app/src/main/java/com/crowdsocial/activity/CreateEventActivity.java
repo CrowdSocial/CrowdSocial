@@ -28,7 +28,6 @@ import android.widget.Toast;
 import com.crowdsocial.R;
 import com.crowdsocial.fragment.FinalFragment;
 import com.crowdsocial.fragment.Step1Fragment;
-import com.crowdsocial.fragment.Step2Fragment;
 import com.crowdsocial.model.Event;
 import com.crowdsocial.model.Invitee;
 import com.crowdsocial.util.BitmapScaler;
@@ -71,7 +70,7 @@ public class CreateEventActivity extends BaseActivity implements
         pagerAdapter =
                 new EventCreateStepsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(2);
     }
 
     @Override
@@ -238,8 +237,6 @@ public class CreateEventActivity extends BaseActivity implements
             if (position == 0) {
                 return Step1Fragment.newInstance();
             } else if (position == 1) {
-                return Step2Fragment.newInstance();
-            } else if (position == 2) {
                 return FinalFragment.newInstance();
             }
             return null;
@@ -247,7 +244,7 @@ public class CreateEventActivity extends BaseActivity implements
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
 
     }
