@@ -1,8 +1,11 @@
 package com.crowdsocial.activity;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +19,12 @@ import com.crowdsocial.model.Event;
 import com.crowdsocial.model.Invitee;
 import com.crowdsocial.util.ParseErrorHandler;
 import com.crowdsocial.util.ParseUserUtil;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -28,7 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventDetailActivity extends BaseActivity {
+public class EventDetailActivity extends BaseActivity implements OnMapReadyCallback {
 
     private ImageView ivEvent;
     private TextView tvAmount;
@@ -41,6 +50,7 @@ public class EventDetailActivity extends BaseActivity {
     private Button btParticipate;
     private TextView tvParticipating;
     private TextView tvInvited;
+    private String eventAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +89,7 @@ public class EventDetailActivity extends BaseActivity {
                     ParseErrorHandler.handleError(e);
                 } else {
                     final Event event = (Event) object;
+                    initilizeMap(event.getLocation());
                     event.getInviteesRelation().getQuery().findInBackground(new FindCallback<Invitee>() {
                         public void done(final List<Invitee> results, ParseException e) {
                             if (e != null) {
@@ -100,7 +111,7 @@ public class EventDetailActivity extends BaseActivity {
                                 tvInviteeCount.setText(String.valueOf(results.size()));
                                 final ArrayList<Invitee> acceptedInvitees = getAcceptedInvitees(results);
                                 try {
-                                    if(acceptedInvitees.size() > 0 &&
+                                    if (acceptedInvitees.size() > 0 &&
                                             event.getUser().fetchIfNeeded().getEmail().equals(ParseUserUtil.getLoggedInUser().getEmail())) {
                                         tvParticipating.setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -173,6 +184,26 @@ public class EventDetailActivity extends BaseActivity {
         });
     }
 
+    private void initilizeMap(String address) {
+        if(address != null) {
+            try {
+                eventAddress = address;
+                SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.map);
+                mapFragment.getMapAsync(this);
+            } catch (Exception e) {
+                Log.e(getClass().getName(), "Unable to load Map");
+            }
+        }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        LatLng latLng = getLocationFromAddress(eventAddress);
+        map.addMarker(new MarkerOptions().position(latLng).title(eventAddress));
+        map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -206,5 +237,28 @@ public class EventDetailActivity extends BaseActivity {
             }
         }
         return null;
+    }
+
+
+    public LatLng getLocationFromAddress(String strAddress) {
+
+        Geocoder coder = new Geocoder(this);
+        List<Address> address;
+        LatLng p1 = null;
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+
+        } catch (Exception ex) {
+            Log.e(getClass().getName(), "Unable to load Map");
+        }
+        return p1;
     }
 }
