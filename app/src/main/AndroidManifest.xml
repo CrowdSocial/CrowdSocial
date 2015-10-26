@@ -19,7 +19,11 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".activity.EventDetailActivity"
-            android:label="@string/title_activity_event_detail" >
+            android:label="@string/title_activity_event_detail"
+            android:parentActivityName=".activity.EventListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.EventListActivity" />>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -38,11 +42,19 @@
        </activity>
        <activity
            android:name=".activity.CreateEventActivity"
-           android:label="@string/title_activity_create_event" >
+           android:label="@string/title_activity_create_event"
+           android:parentActivityName=".activity.EventListActivity" >
+           <meta-data
+               android:name="android.support.PARENT_ACTIVITY"
+               android:value=".activity.EventListActivity" />>
        </activity>
        <activity
            android:name=".activity.ProfileActivity"
-           android:label="@string/title_activity_profile" >
+           android:label="@string/title_activity_profile"
+           android:parentActivityName=".activity.EventListActivity" >
+           <meta-data
+               android:name="android.support.PARENT_ACTIVITY"
+               android:value=".activity.EventListActivity" />
        </activity>
 
         <meta-data

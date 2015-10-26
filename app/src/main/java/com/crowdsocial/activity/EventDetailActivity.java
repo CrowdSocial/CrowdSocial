@@ -70,6 +70,10 @@ public class EventDetailActivity extends BaseActivity implements OnMapReadyCallb
         tvInvited = (TextView) findViewById(R.id.tvInvited);
 
         String eventId = getIntent().getStringExtra("eventId");
+        String eventTitle = getIntent().getStringExtra("eventTitle");
+
+        getSupportActionBar().setTitle(eventTitle);
+
 
         //intent is fired from invitee clicking the event link
         if(eventId == null) {

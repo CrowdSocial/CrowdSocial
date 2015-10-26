@@ -42,6 +42,7 @@ public class ProfileActivity extends BaseActivity {
 
         String email = getIntent().getStringExtra("email");
         Picasso.with(this).load(GravatarUtil.getGravatarUrl(email)).into(ivProfile);
+        getSupportActionBar().setTitle(email);
     }
 
     @Override
