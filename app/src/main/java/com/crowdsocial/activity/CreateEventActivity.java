@@ -18,11 +18,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +31,7 @@ import com.crowdsocial.fragment.Step1Fragment;
 import com.crowdsocial.fragment.Step2Fragment;
 import com.crowdsocial.model.Event;
 import com.crowdsocial.model.Invitee;
+import com.crowdsocial.util.BitmapScaler;
 import com.crowdsocial.util.ParseErrorHandler;
 import com.crowdsocial.util.ParseUserUtil;
 import com.parse.ParseException;
@@ -47,7 +46,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 
-public class CreateEventActivity extends BaseActivity {
+public class CreateEventActivity extends BaseActivity implements
+        FinalFragment.OnContactSelectedListener {
 
     ViewPager viewPager;
     EventCreateStepsPagerAdapter pagerAdapter;
@@ -59,6 +59,7 @@ public class CreateEventActivity extends BaseActivity {
     private String eventImageFileName = "photo.jpg";
     private String eventImageUrl;
     private Date eventDate;
+    private ArrayList<Invitee> invitees;
     private static final String EMAIL_MSG_TYP = "text/html";
 
     @Override
@@ -66,7 +67,7 @@ public class CreateEventActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-
+        invitees = new ArrayList<>();
         pagerAdapter =
                 new EventCreateStepsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
@@ -97,6 +98,23 @@ public class CreateEventActivity extends BaseActivity {
         viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
     }
 
+    @Override
+    public void onContactSelected(String email, String name) {
+        Invitee invitee = new Invitee();
+        if(!TextUtils.isEmpty(email)) {
+            invitee.setEmail(email);
+        }
+        if(!TextUtils.isEmpty(name)) {
+            invitee.setName(name);
+        }
+        invitee.setAccepted(false);
+        if(invitees.contains(invitee)) {
+            invitees.remove(invitee);
+        } else {
+            invitees.add(invitee);
+        }
+    }
+
     public void setEventDate(View view) {
         Calendar c = Calendar.getInstance();
         DatePickerDialog datePickerDialog =
@@ -122,7 +140,7 @@ public class CreateEventActivity extends BaseActivity {
 
     public void createEvent(View view) {
 
-        if(!validEvent()) {
+        if(!isValidEvent()) {
             Toast.makeText(CreateEventActivity.this,
                     "Please enter valid Event details", Toast.LENGTH_SHORT).show();
             return;
@@ -133,7 +151,6 @@ public class CreateEventActivity extends BaseActivity {
         EditText etDescription = (EditText) findViewById(R.id.etDescription);
         EditText etAddress = (EditText) findViewById(R.id.etAddress);
         EditText etAmount = (EditText) findViewById(R.id.etAmount);
-        ListView lvContacts = (ListView) findViewById(R.id.lvContacts);
 
         final Event event = new Event();
         event.setUser(ParseUserUtil.getLoggedInUser());
@@ -147,8 +164,6 @@ public class CreateEventActivity extends BaseActivity {
         if(eventImageUrl != null) {
             event.setImageUrl(eventImageUrl);
         }
-
-        final ArrayList<Invitee> invitees = getInviteesFromListView(lvContacts);
 
         for(Invitee i : invitees) {
             event.addInvitee(i);
@@ -173,7 +188,6 @@ public class CreateEventActivity extends BaseActivity {
                                             , getEmailBody(
                                                     ParseUserUtil.getLoggedInUser().getEmail(),
                                                     event.getTitle(),
-                                                    event.getImageUrl(),
                                                     EMAIL_URL + "/event/" + eventId)
                                                     , getInviteeEmails(invitees));
                                 }
@@ -186,13 +200,12 @@ public class CreateEventActivity extends BaseActivity {
         });
     }
 
-    private boolean validEvent() {
+    private boolean isValidEvent() {
         Spinner spTheme = (Spinner) findViewById(R.id.spTheme);
         EditText etEventTitle = (EditText) findViewById(R.id.etEventTitle);
         EditText etDescription = (EditText) findViewById(R.id.etDescription);
         EditText etAddress = (EditText) findViewById(R.id.etAddress);
         EditText etAmount = (EditText) findViewById(R.id.etAmount);
-        ListView lvContacts = (ListView) findViewById(R.id.lvContacts);
 
         if(spTheme.getSelectedItem() == null)
             return false;
@@ -209,7 +222,7 @@ public class CreateEventActivity extends BaseActivity {
         }
         if(eventDate == null)
             return false;
-        if(getInviteesFromListView(lvContacts).size() == 0)
+        if(invitees.size() == 0)
             return false;
         return true;
     }
@@ -254,33 +267,6 @@ public class CreateEventActivity extends BaseActivity {
         }
     }
 
-    private ArrayList<Invitee> getInviteesFromListView(ListView lvContacts) {
-        ArrayList<Invitee> invitees = new ArrayList<>();
-        for(int i = 0; i < lvContacts.getAdapter().getCount(); i++) {
-            CheckBox cbContact = (CheckBox)lvContacts.getChildAt(i).findViewById(R.id.cbContact);
-            if(cbContact.isChecked()) {
-
-                TextView tvEmail = (TextView) lvContacts.getChildAt(i).findViewById(R.id.tvEmail);
-                TextView tvName = (TextView) lvContacts.getChildAt(i).findViewById(R.id.tvName);
-                String email = tvEmail.getText().toString();
-                String name = tvName.getText().toString();
-
-                Invitee invitee = new Invitee();
-                if(!TextUtils.isEmpty(email)) {
-                    invitee.setEmail(email);
-                }
-                if(!TextUtils.isEmpty(name)) {
-                    invitee.setName(tvName.getText().toString());
-                }
-                invitee.setAccepted(false);
-
-                invitees.add(invitee);
-            }
-        }
-
-        return invitees;
-    }
-
     public void onLaunchCamera(View view) {
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -297,10 +283,12 @@ public class CreateEventActivity extends BaseActivity {
                 // by this point we have the camera photo on disk
                 Bitmap takenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
 
+                takenImage = BitmapScaler.scaleToFitHeight(takenImage, 400);
+
                 // Convert it to byte
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 // Compress image to lower quality scale 1 - 100
-                takenImage.compress(Bitmap.CompressFormat.PNG, 50, stream);
+                takenImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] image = stream.toByteArray();
                 final ParseFile file = new ParseFile(image);
 
@@ -356,7 +344,7 @@ public class CreateEventActivity extends BaseActivity {
         return false;
     }
 
-    private String getEmailBody(String email, String title, String imageUrl, String link) {
+    private String getEmailBody(String email, String title, String link) {
         String body = getString(R.string.invitation_template);
         return body.replace("{user_email}", email)
                 .replace("{event_title}", title)

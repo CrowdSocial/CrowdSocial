@@ -33,4 +33,20 @@ public class Invitee extends ParseObject {
     public void setAccepted(boolean accepted) {
         put("accepted", accepted);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Invitee invitee = (Invitee) o;
+
+        return !(getEmail() != null ? !getEmail().equals(invitee.getEmail()) : invitee.getEmail() != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getEmail() != null ? getEmail().hashCode() : 0;
+    }
 }

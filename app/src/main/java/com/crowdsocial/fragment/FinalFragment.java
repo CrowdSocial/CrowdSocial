@@ -1,5 +1,6 @@
 package com.crowdsocial.fragment;
 
+import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -11,11 +12,19 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.crowdsocial.R;
 
 public class FinalFragment extends Fragment {
+
+    OnContactSelectedListener listener;
+
+    public interface OnContactSelectedListener {
+        public void onContactSelected(String email, String name);
+    }
+
     private SimpleCursorAdapter contactsAdapter;
     public static final int CONTACT_LOADER_ID = 78;
 
@@ -67,12 +76,36 @@ public class FinalFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            listener = (OnContactSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " " +
+                    "must implement OnContactSelectedListener");
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_final, container, false);
 
         ListView lvContacts = (ListView) v.findViewById(R.id.lvContacts);
         lvContacts.setAdapter(contactsAdapter);
+
+        lvContacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Cursor c = ((SimpleCursorAdapter) parent.getAdapter()).getCursor();
+                c.moveToPosition(position);
+                c.getString(c.getColumnIndex(ContactsContract.Contacts.PHOTO_URI));
+                listener.onContactSelected(
+                        c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS)),
+                        c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
+            }
+        });
 
         getActivity().getSupportLoaderManager().initLoader(CONTACT_LOADER_ID,
                 new Bundle(), contactsLoader);
