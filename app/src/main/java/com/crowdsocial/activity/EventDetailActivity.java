@@ -250,7 +250,7 @@ public class EventDetailActivity extends BaseActivity implements OnMapReadyCallb
         List<Address> address;
         LatLng p1 = null;
         try {
-            address = coder.getFromLocationName(strAddress, 5);
+            address = coder.getFromLocationName(strAddress, 1);
             if (address == null) {
                 return null;
             }

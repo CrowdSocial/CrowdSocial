@@ -37,5 +37,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.0.1'
     //for google maps
     compile 'com.google.android.gms:play-services:8.1.0'
+    //recyclerview
+    compile 'com.android.support:recyclerview-v7:23.+'
 
 }
