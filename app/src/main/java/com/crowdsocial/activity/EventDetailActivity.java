@@ -5,6 +5,7 @@ import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,6 +71,10 @@ public class EventDetailActivity extends BaseActivity implements OnMapReadyCallb
         tvInvited = (TextView) findViewById(R.id.tvInvited);
 
         String eventId = getIntent().getStringExtra("eventId");
+        String eventTitle = getIntent().getStringExtra("eventTitle");
+
+        getSupportActionBar().setTitle(eventTitle);
+
 
         //intent is fired from invitee clicking the event link
         if(eventId == null) {
@@ -96,14 +101,16 @@ public class EventDetailActivity extends BaseActivity implements OnMapReadyCallb
                                 ParseErrorHandler.handleError(e);
                             } else {
                                 try {
-                                    if (results.size() > 0 &&
-                                            event.getUser().fetchIfNeeded().getEmail().equals(ParseUserUtil.getLoggedInUser().getEmail())) {
-                                        tvInvited.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                showInviteeDialog(results);
-                                            }
-                                        });
+                                    if (ParseUserUtil.isUserLoggedIn()) {
+                                        if (results.size() > 0 &&
+                                                event.getUser().fetchIfNeeded().getEmail().equals(ParseUserUtil.getLoggedInUser().getEmail())) {
+                                            tvInvited.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    showInviteeDialog(results);
+                                                }
+                                            });
+                                        }
                                     }
                                 } catch (ParseException ex) {
                                     ParseErrorHandler.handleError(ex);
@@ -111,14 +118,16 @@ public class EventDetailActivity extends BaseActivity implements OnMapReadyCallb
                                 tvInviteeCount.setText(String.valueOf(results.size()));
                                 final ArrayList<Invitee> acceptedInvitees = getAcceptedInvitees(results);
                                 try {
-                                    if (acceptedInvitees.size() > 0 &&
-                                            event.getUser().fetchIfNeeded().getEmail().equals(ParseUserUtil.getLoggedInUser().getEmail())) {
-                                        tvParticipating.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                showInviteeDialog(acceptedInvitees);
-                                            }
-                                        });
+                                    if (ParseUserUtil.isUserLoggedIn()) {
+                                        if (acceptedInvitees.size() > 0 &&
+                                                event.getUser().fetchIfNeeded().getEmail().equals(ParseUserUtil.getLoggedInUser().getEmail())) {
+                                            tvParticipating.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    showInviteeDialog(acceptedInvitees);
+                                                }
+                                            });
+                                        }
                                     }
                                 } catch (ParseException ex) {
                                     ParseErrorHandler.handleError(ex);
@@ -131,48 +140,52 @@ public class EventDetailActivity extends BaseActivity implements OnMapReadyCallb
 
                                 tvCommittedAmount.setText("$" + String.valueOf(amount));
 
-                                final Invitee invitee = getInvitedUser(results, ParseUserUtil.getLoggedInUser().getEmail());
-                                try {
-                                    if (event.getUser().fetchIfNeeded().getEmail().equals(ParseUserUtil.getLoggedInUser().getEmail())) {
-                                        btParticipate.setEnabled(false);
-                                    } else if (invitee != null && !invitee.hasAccepted()) {
-                                        btParticipate.setEnabled(true);
-                                        btParticipate.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                invitee.setAccepted(true);
-                                                invitee.saveInBackground(new SaveCallback() {
-                                                    @Override
-                                                    public void done(ParseException e) {
-                                                        if (e != null) {
-                                                            ParseErrorHandler.handleError(e);
-                                                        } else {
-                                                            btParticipate.setEnabled(false);
+                                if (ParseUserUtil.isUserLoggedIn()) {
+                                    final Invitee invitee = getInvitedUser(results, ParseUserUtil.getLoggedInUser().getEmail());
+                                    try {
+                                        if (event.getUser().fetchIfNeeded().getEmail().equals(ParseUserUtil.getLoggedInUser().getEmail())) {
+                                            btParticipate.setEnabled(false);
+                                        } else if (invitee != null && !invitee.hasAccepted()) {
+                                            btParticipate.setEnabled(true);
+                                            btParticipate.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    invitee.setAccepted(true);
+                                                    invitee.saveInBackground(new SaveCallback() {
+                                                        @Override
+                                                        public void done(ParseException e) {
+                                                            if (e != null) {
+                                                                ParseErrorHandler.handleError(e);
+                                                            } else {
+                                                                btParticipate.setEnabled(false);
 
-                                                            //event organizer + accepted invitees + current invitee
-                                                            tvParticipateCount.setText(String.valueOf(1 + 1 + acceptedInvitees.size()));
+                                                                //event organizer + accepted invitees + current invitee
+                                                                tvParticipateCount.setText(String.valueOf(1 + 1 + acceptedInvitees.size()));
 
-                                                            //event organizers contribution + contribution from accepted invitees + current invitees contribution
-                                                            int amount = (acceptedInvitees.size() + 1 + 1) * event.getParticipationAmount();
+                                                                //event organizers contribution + contribution from accepted invitees + current invitees contribution
+                                                                int amount = (acceptedInvitees.size() + 1 + 1) * event.getParticipationAmount();
 
-                                                            tvCommittedAmount.setText("$" + String.valueOf(amount));
+                                                                tvCommittedAmount.setText("$" + String.valueOf(amount));
+                                                            }
                                                         }
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    } else {
-                                        btParticipate.setEnabled(false);
+                                                    });
+                                                }
+                                            });
+                                        } else {
+                                            btParticipate.setEnabled(false);
+                                        }
+                                    } catch (ParseException ex) {
+                                        ParseErrorHandler.handleError(ex);
                                     }
-                                } catch (ParseException ex) {
-                                    ParseErrorHandler.handleError(ex);
                                 }
                             }
                         }
                     });
+                    if (!TextUtils.isEmpty(event.getImageUrl())) {
                     Picasso.with(EventDetailActivity.this)
                             .load(event.getImageUrl())
                             .into(ivEvent);
+                    }
                     tvDescription.setText(event.getDescription());
                     tvVenue.setText(event.getLocation());
                     tvAmount.setText("$" + String.valueOf(event.getParticipationAmount()));
@@ -246,7 +259,7 @@ public class EventDetailActivity extends BaseActivity implements OnMapReadyCallb
         List<Address> address;
         LatLng p1 = null;
         try {
-            address = coder.getFromLocationName(strAddress, 5);
+            address = coder.getFromLocationName(strAddress, 1);
             if (address == null) {
                 return null;
             }

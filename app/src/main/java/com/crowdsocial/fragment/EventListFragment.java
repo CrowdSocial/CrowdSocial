@@ -3,11 +3,11 @@ package com.crowdsocial.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.crowdsocial.R;
 import com.crowdsocial.activity.EventDetailActivity;
@@ -21,13 +21,13 @@ public class EventListFragment extends Fragment {
 
     private ArrayList<Event> events = new ArrayList<>();
     private EventArrayAdapter aEvents;
-    private ListView lvEvents;
+    private RecyclerView rvEvents;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        aEvents = new EventArrayAdapter(this.getContext(), events);
+        aEvents = new EventArrayAdapter(events);
     }
 
     // Inflate the fragment layout we defined above for this fragment
@@ -37,25 +37,31 @@ public class EventListFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event, container, false);
 
-        lvEvents = (ListView) view.findViewById(R.id.lvEvents);
-        lvEvents.setAdapter(aEvents);
+        rvEvents = (RecyclerView) view.findViewById(R.id.rvEvents);
+        rvEvents.setAdapter(aEvents);
 
-        lvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        rvEvents.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        aEvents.setOnItemClickListener(new EventArrayAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(View view, int position) {
                 Intent i = new Intent(getContext(), EventDetailActivity.class);
-                i.putExtra("eventId", aEvents.getItem(position).getObjectId());
+                i.putExtra("eventId", events.get(position).getObjectId());
+                i.putExtra("eventTitle", events.get(position).getTitle());
                 startActivity(i);
             }
         });
+
         return view;
     }
 
-    public void addAllEvents(List<Event> events) {
-        aEvents.addAll(events);
+    public void addAllEvents(List<Event> evnts) {
+        events.addAll(evnts);
+        aEvents.notifyDataSetChanged();
     }
 
     public void removeAllEvents() {
-        aEvents.clear();
+        events.clear();
+        aEvents.notifyDataSetChanged();
     }
 }

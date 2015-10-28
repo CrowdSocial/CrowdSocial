@@ -1,10 +1,11 @@
 package com.crowdsocial.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,44 +15,71 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class EventArrayAdapter extends ArrayAdapter<Event> {
+public class EventArrayAdapter extends RecyclerView.Adapter<EventArrayAdapter.ViewHolder> {
 
-    private static class ViewHolder {
+    private List<Event> mEvents;
+    Context context;
+
+    public EventArrayAdapter(List<Event> events) {
+        mEvents = events;
+    }
+
+    // Define listener member variable
+    private OnItemClickListener listener;
+    // Define the listener interface
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, int position);
+    }
+    // Define the method that allows the parent activity or fragment to define the listener
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
         private ImageView ivEvent;
         private TextView tvTitle;
         private TextView tvDescription;
-    }
 
-    public EventArrayAdapter(Context context, List<Event> events) {
-        super(context, android.R.layout.simple_list_item_1, events);
+        public ViewHolder(final View itemView) {
+            super(itemView);
+
+            tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
+            tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
+            ivEvent = (ImageView) itemView.findViewById(R.id.ivEvent);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Triggers click upwards to the adapter on click
+                    if (listener != null)
+                        listener.onItemClick(itemView, getLayoutPosition());
+                }
+            });
+        }
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        final ViewHolder viewHolder;
+    public EventArrayAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View eventView = inflater.inflate(R.layout.item_event, parent, false);
+        return new ViewHolder(eventView);
+    }
 
-        if(convertView == null) {
-            convertView = LayoutInflater.from(this.getContext())
-                    .inflate(R.layout.item_event, parent, false);
-
-            viewHolder = new ViewHolder();
-            viewHolder.tvDescription = (TextView) convertView.findViewById(R.id.tvDescription);
-            viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-            viewHolder.ivEvent = (ImageView) convertView.findViewById(R.id.ivEvent);
-
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-
-        Event event = getItem(position);
+    @Override
+    public void onBindViewHolder(EventArrayAdapter.ViewHolder viewHolder, int position) {
+        Event event = mEvents.get(position);
 
         viewHolder.tvTitle.setText(event.getTitle());
         viewHolder.tvDescription.setText(event.getDescription());
-
-        Picasso.with(getContext()).load(event.getImageUrl()).into(viewHolder.ivEvent);
-
-        return convertView;
+        if(!TextUtils.isEmpty(event.getImageUrl())) {
+            Picasso.with(context).load(event.getImageUrl()).into(viewHolder.ivEvent);
+        }
     }
 
+    @Override
+    public int getItemCount() {
+        return mEvents.size();
+    }
 }
