@@ -2,6 +2,7 @@ package com.crowdsocial.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +73,9 @@ public class EventArrayAdapter extends RecyclerView.Adapter<EventArrayAdapter.Vi
 
         viewHolder.tvTitle.setText(event.getTitle());
         viewHolder.tvDescription.setText(event.getDescription());
-        Picasso.with(context).load(event.getImageUrl()).into(viewHolder.ivEvent);
+        if(!TextUtils.isEmpty(event.getImageUrl())) {
+            Picasso.with(context).load(event.getImageUrl()).into(viewHolder.ivEvent);
+        }
     }
 
     @Override
