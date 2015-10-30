@@ -1,21 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
-             android:layout_height="match_parent"
+             android:layout_height="match_parent" android:padding="@dimen/activity_horizontal_margin"
              tools:context="com.crowdsocial.fragment.Step1Fragment">
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spTheme"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:entries="@array/theme"
-        android:spinnerMode="dropdown"/>
 
     <EditText
         android:id="@+id/etEventTitle"
-        android:layout_below="@id/spTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/event"/>

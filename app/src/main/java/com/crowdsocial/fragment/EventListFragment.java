@@ -49,6 +49,7 @@ public class EventListFragment extends Fragment {
                 i.putExtra("eventId", events.get(position).getObjectId());
                 i.putExtra("eventTitle", events.get(position).getTitle());
                 startActivity(i);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
             }
         });
 

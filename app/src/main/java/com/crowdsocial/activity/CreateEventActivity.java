@@ -21,7 +21,6 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,6 +77,13 @@ public class CreateEventActivity extends BaseActivity implements
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_create_event, menu);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        overridePendingTransition(R.anim.hold, R.anim.slide_down);
     }
 
     @Override
@@ -145,7 +151,6 @@ public class CreateEventActivity extends BaseActivity implements
             return;
         }
 
-        Spinner spTheme = (Spinner) findViewById(R.id.spTheme);
         EditText etEventTitle = (EditText) findViewById(R.id.etEventTitle);
         EditText etDescription = (EditText) findViewById(R.id.etDescription);
         EditText etAddress = (EditText) findViewById(R.id.etAddress);
@@ -157,7 +162,6 @@ public class CreateEventActivity extends BaseActivity implements
         event.setParticipationAmount(Integer.valueOf(etAmount.getText().toString()));
         event.setDescription(etDescription.getText().toString());
         event.setLocation(etAddress.getText().toString());
-        event.setTheme(spTheme.getSelectedItem().toString());
         event.setTitle(etEventTitle.getText().toString());
         event.setEventDate(eventDate);
         if(eventImageUrl != null) {
@@ -200,14 +204,11 @@ public class CreateEventActivity extends BaseActivity implements
     }
 
     private boolean isValidEvent() {
-        Spinner spTheme = (Spinner) findViewById(R.id.spTheme);
         EditText etEventTitle = (EditText) findViewById(R.id.etEventTitle);
         EditText etDescription = (EditText) findViewById(R.id.etDescription);
         EditText etAddress = (EditText) findViewById(R.id.etAddress);
         EditText etAmount = (EditText) findViewById(R.id.etAmount);
 
-        if(spTheme.getSelectedItem() == null)
-            return false;
         if(TextUtils.isEmpty(etEventTitle.getText().toString()))
             return false;
         if(TextUtils.isEmpty(etAddress.getText().toString()))
