@@ -8,7 +8,8 @@
         android:id="@+id/etEventTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/event"/>
+        android:layout_marginTop="10dp"
+        android:hint="@string/title"/>
 
     <EditText
         android:id="@+id/etAddress"
@@ -16,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/venue"
+        android:layout_marginTop="10dp"
         android:maxLines="3"/>
 
 
@@ -24,8 +26,17 @@
         android:layout_width="match_parent"
         android:layout_below="@id/etAddress"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:hint="@string/description"
         android:maxLines="3"/>
+
+    <EditText
+        android:id="@+id/etAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/etDescription"
+        android:hint="@string/amount"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -37,13 +48,21 @@
         android:layout_alignParentEnd="true"
         android:layout_gravity="right|bottom"/>
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="setEventDate"
+        android:hint="@string/date"
+        android:id="@+id/etDate"
+        android:layout_below="@id/etAmount" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Click Image"
+        android:text="@string/add_image"
         android:id="@+id/btnCamera"
         android:onClick="onLaunchCamera"
-        android:layout_below="@id/etDescription"/>
+        android:layout_below="@+id/etDate"/>
 
     <ImageView
         android:layout_width="wrap_content"
@@ -53,28 +72,5 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="73dp"
         android:layout_marginTop="47dp"/>
-
-    <EditText
-        android:id="@+id/etAmount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivEvent"
-        android:hint="@string/amount"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/event_date"
-        android:onClick="setEventDate"
-        android:id="@+id/btnDate"
-        android:layout_below="@+id/etAmount"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="52dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvDate"
-        android:layout_below="@id/btnDate" />
 
 </RelativeLayout>

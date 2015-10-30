@@ -40,6 +40,9 @@
     <string name="invalid_login">Invalid login credentials</string>
     <string name="invalid_registration">User already registered</string>
     <string name="no_email_clients_installed">There are no email clients installed.</string>
+    <string name="add_image">Add Image</string>
+    <string name="title">Title</string>
+    <string name="date">Date</string>
 
     <string-array name="theme">
         <item>sport</item>

@@ -21,7 +21,6 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crowdsocial.R;
@@ -134,7 +133,7 @@ public class CreateEventActivity extends BaseActivity implements
 
                 eventDate = c.getTime();
 
-                TextView tv = (TextView) findViewById(R.id.tvDate);
+                EditText tv = (EditText) findViewById(R.id.etDate);
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
                 tv.setText(dateFormat.format(eventDate));
