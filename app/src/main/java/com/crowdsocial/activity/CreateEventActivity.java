@@ -44,7 +44,8 @@ import java.util.Date;
 import java.util.HashSet;
 
 public class CreateEventActivity extends BaseActivity implements
-        FinalFragment.OnContactSelectedListener {
+        FinalFragment.OnContactSelectedListener,
+        Step1Fragment.OnEventDateClickListener, Step1Fragment.OnCameraClick {
 
     ViewPager viewPager;
     EventCreateStepsPagerAdapter pagerAdapter;
@@ -119,7 +120,8 @@ public class CreateEventActivity extends BaseActivity implements
         }
     }
 
-    public void setEventDate(View view) {
+    @Override
+    public void OnEventDateClick() {
         Calendar c = Calendar.getInstance();
         DatePickerDialog datePickerDialog =
                 new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -264,7 +266,8 @@ public class CreateEventActivity extends BaseActivity implements
         }
     }
 
-    public void onLaunchCamera(View view) {
+    @Override
+    public void onLaunchCamera() {
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri(eventImageFileName)); // set the image file name

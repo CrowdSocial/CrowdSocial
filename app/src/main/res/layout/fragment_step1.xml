@@ -1,76 +1,74 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent" android:padding="@dimen/activity_horizontal_margin"
-             tools:context="com.crowdsocial.fragment.Step1Fragment">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 xmlns:tools="http://schemas.android.com/tools"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent" android:padding="@dimen/activity_horizontal_margin"
+                 tools:context="com.crowdsocial.fragment.Step1Fragment">
+        <EditText
+            android:id="@+id/etEventTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="@string/title"/>
 
-    <EditText
-        android:id="@+id/etEventTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="@string/title"/>
-
-    <EditText
-        android:id="@+id/etAddress"
-        android:layout_below="@id/etEventTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/venue"
-        android:layout_marginTop="10dp"
-        android:maxLines="3"/>
+        <EditText
+            android:id="@+id/etAddress"
+            android:layout_below="@id/etEventTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/venue"
+            android:layout_marginTop="5dp"
+            android:maxLines="3"/>
 
 
-    <EditText
-        android:id="@+id/etDescription"
-        android:layout_width="match_parent"
-        android:layout_below="@id/etAddress"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="@string/description"
-        android:maxLines="3"/>
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_below="@id/etAddress"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="@string/description"
+            android:maxLines="3"/>
 
-    <EditText
-        android:id="@+id/etAmount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/etDescription"
-        android:hint="@string/amount"/>
+        <EditText
+            android:id="@+id/etAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/etDescription"
+            android:hint="@string/amount"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/next"
-        android:id="@+id/btnNext"
-        android:onClick="nextStep"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="right|bottom"/>
+        <EditText
+            android:id="@+id/etDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/etAmount"
+            android:drawableRight="@drawable/calendar"
+            android:focusableInTouchMode="false"
+            android:hint="@string/date"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="setEventDate"
-        android:hint="@string/date"
-        android:id="@+id/etDate"
-        android:layout_below="@id/etAmount" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="fitXY"
+            android:id="@+id/ivEvent"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_below="@+id/etDate" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_image"
-        android:id="@+id/btnCamera"
-        android:onClick="onLaunchCamera"
-        android:layout_below="@+id/etDate"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next"
+            android:id="@+id/btnNext"
+            android:onClick="nextStep"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ivEvent"
-        android:layout_below="@+id/btnCamera"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="73dp"
-        android:layout_marginTop="47dp"/>
 
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>
