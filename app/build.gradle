@@ -42,4 +42,6 @@ dependencies {
 
     //fonts
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+
+    compile 'com.android.support:percent:23.1.0'
 }

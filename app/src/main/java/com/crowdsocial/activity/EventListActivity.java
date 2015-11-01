@@ -1,8 +1,10 @@
 package com.crowdsocial.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.crowdsocial.R;
@@ -10,6 +12,8 @@ import com.crowdsocial.fragment.EventListFragmentPagerAdapter;
 import com.crowdsocial.util.ParseUserUtil;
 
 public class EventListActivity extends BaseActivity {
+
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,14 @@ public class EventListActivity extends BaseActivity {
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         // Attach the view pager to the tab strip
         tabsStrip.setViewPager(viewPager);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCreateEventClick(null);
+            }
+        });
     }
 
     @Override
