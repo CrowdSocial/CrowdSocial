@@ -22,7 +22,7 @@
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="logout">Logout</string>
     <string name="next">Next</string>
-    <string name="add_contacts_to_invite">Add Contacts to invite</string>
+    <string name="add_invitees">Add Invitees</string>
     <string name="previous">Previous</string>
     <string name="create_event">Create Event</string>
     <string name="event">Event</string>

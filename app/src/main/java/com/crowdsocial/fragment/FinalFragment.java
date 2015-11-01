@@ -1,6 +1,7 @@
 package com.crowdsocial.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.crowdsocial.R;
@@ -25,7 +27,7 @@ public class FinalFragment extends Fragment {
         public void onContactSelected(String email, String name);
     }
 
-    private SimpleCursorAdapter contactsAdapter;
+    private ContactsAdapter contactsAdapter;
     public static final int CONTACT_LOADER_ID = 78;
 
     private LoaderManager.LoaderCallbacks<Cursor> contactsLoader =
@@ -98,7 +100,7 @@ public class FinalFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Cursor c = ((SimpleCursorAdapter) parent.getAdapter()).getCursor();
+                Cursor c = ((ContactsAdapter) parent.getAdapter()).getCursor();
                 c.moveToPosition(position);
                 c.getString(c.getColumnIndex(ContactsContract.Contacts.PHOTO_URI));
                 listener.onContactSelected(
@@ -121,12 +123,27 @@ public class FinalFragment extends Fragment {
                 ContactsContract.Contacts.PHOTO_URI
         };
         // View IDs which will have the respective column data inserted
-        int[] uiBindTo = { R.id.tvEmail, R.id.tvName, R.id.ivImage };
+        int[] uiBindTo = { R.id.tvEmail, R.id.tvName, R.id.ivProfileImage };
         // Create the simple cursor adapter to use for our list
         // specifying the template to inflate (item_contact),
-        contactsAdapter = new SimpleCursorAdapter(
+        contactsAdapter = new ContactsAdapter(
                 this.getContext(), R.layout.item_contact,
                 null, uiBindFrom, uiBindTo,
                 0);
+    }
+
+    public class ContactsAdapter extends SimpleCursorAdapter {
+        public ContactsAdapter(Context context, int layout, Cursor c, String[] from,
+                                   int[] to, int flags) {
+            super(context, layout, c, from, to, flags);
+        }
+
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
+            super.bindView(view, context, cursor);
+
+            ImageView ivProfileImage = (ImageView) view.findViewById(R.id.ivProfileImage);
+//            ivProfileImage.setImageResource(R.drawable.calendar);
+        }
     }
 }

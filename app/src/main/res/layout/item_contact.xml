@@ -1,25 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:layout_height="match_parent">
 
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@mipmap/ic_launcher"
-        android:id="@+id/ivImage"/>
+        android:focusable="false"
+        android:id="@+id/ivProfileImage"/>
 
-    <CheckedTextView
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/tvName"/>
+        android:layout_toEndOf="@id/ivProfileImage"
+        android:layout_marginStart="10dp"
+        android:focusable="false"
+        android:id="@+id/rlContact">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/tvEmail"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/secondary_text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/tvName"/>
 
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvName"
+            android:textColor="@color/secondary_text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/tvEmail"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

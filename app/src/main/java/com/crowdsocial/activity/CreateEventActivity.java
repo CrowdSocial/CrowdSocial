@@ -63,12 +63,34 @@ public class CreateEventActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().setTitle(getString(R.string.create_event));
+
         setContentView(R.layout.activity_create_event);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         invitees = new ArrayList<>();
         pagerAdapter =
                 new EventCreateStepsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 0) {
+                    getSupportActionBar().setTitle(getString(R.string.create_event));
+                } else {
+                    getSupportActionBar().setTitle(getString(R.string.add_invitees));
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         viewPager.setOffscreenPageLimit(2);
     }
 

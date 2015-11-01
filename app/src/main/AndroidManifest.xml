@@ -42,7 +42,6 @@
        </activity>
        <activity
            android:name=".activity.CreateEventActivity"
-           android:label="@string/title_activity_create_event"
            android:parentActivityName=".activity.EventListActivity" >
            <meta-data
                android:name="android.support.PARENT_ACTIVITY"
