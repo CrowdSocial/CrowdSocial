@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:background="@drawable/bg"
+                android:background="@drawable/bg3"
                 android:layout_height="match_parent">
 
     <TextView
@@ -12,13 +12,13 @@
         android:textSize="46sp"
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
-        fontPath="fonts/AMAZI.TTF"
-        android:textColor="#4c8619"/>
+        fontPath="fonts/Lobster_1.3.otf"
+        android:textColor="@color/primary_text"/>
 
     <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#800c0809"
+        android:background="#a40c0809"
         android:orientation="vertical"
         android:padding="25dp"
         android:layout_centerInParent="true" >
