@@ -14,8 +14,8 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="action_create">Add</string>
     <string name="title_activity_event_list">EventListActivity</string>
-    <string name="login">Login</string>
-    <string name="register">Register</string>
+    <string name="login">Log In</string>
+    <string name="register">Sign Up</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="action_account">Account</string>

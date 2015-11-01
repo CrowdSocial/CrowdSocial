@@ -10,7 +10,7 @@
         android:text="@string/app_name"
         android:id="@+id/textView"
         android:textSize="46sp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="60dp"
         android:layout_centerHorizontal="true"
         fontPath="fonts/Lobster_1.3.otf"
         android:textColor="@color/primary_text"/>
@@ -22,13 +22,47 @@
         android:orientation="vertical"
         android:padding="25dp"
         android:layout_centerInParent="true" >
-        <ToggleButton
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="@string/login"
+                android:id="@+id/tvLogin"
+                android:textSize="24sp"
+                android:clickable="true"
+                android:onClick="onLoginClick"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="|"
+                android:id="@+id/tvSeparator"
+                android:layout_toEndOf="@+id/tvLogin"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="24sp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="@string/register"
+                android:id="@+id/tvRegister"
+                android:clickable="true"
+                android:onClick="onRegisterClick"
+                android:layout_toEndOf="@+id/tvSeparator"
+                android:textSize="24sp"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <Switch
             style="?android:buttonStyleToggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textOff="@string/register"
             android:textOn="@string/login"
             android:id="@+id/swLoginReg"
+            android:visibility="gone"
             android:layout_gravity="center_horizontal"/>
 
         <EditText
@@ -36,7 +70,7 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:hint="@string/email"
-            android:textColorHint="#aaffffff"
+            android:textColorHint="@color/secondary_text"
             android:textColor="#FFFFFF"
             android:ems="10"
             android:id="@+id/etEmail"/>
@@ -47,7 +81,7 @@
             android:inputType="textPassword"
             android:ems="10"
             android:hint="@string/password"
-            android:textColorHint="#aaffffff"
+            android:textColorHint="@color/secondary_text"
             android:textColor="#FFFFFF"
             android:id="@+id/etPassword"
             android:layout_gravity="center_horizontal"/>
