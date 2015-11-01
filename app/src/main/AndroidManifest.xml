@@ -42,6 +42,7 @@
        </activity>
        <activity
            android:name=".activity.CreateEventActivity"
+           android:windowSoftInputMode="adjustPan"
            android:parentActivityName=".activity.EventListActivity" >
            <meta-data
                android:name="android.support.PARENT_ACTIVITY"
