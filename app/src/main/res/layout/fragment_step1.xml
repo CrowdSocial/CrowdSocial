@@ -1,6 +1,9 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content" android:padding="@dimen/activity_horizontal_margin"
                  tools:context="com.crowdsocial.fragment.Step1Fragment">
@@ -66,8 +69,10 @@
             android:text="@string/next"
             android:id="@+id/btnNext"
             android:onClick="nextStep"
+            android:layout_below="@+id/ivEvent"
             android:layout_marginTop="10dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
+</ScrollView>
