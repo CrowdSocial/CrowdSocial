@@ -22,12 +22,12 @@
         android:orientation="vertical"
         android:padding="25dp"
         android:layout_centerInParent="true" >
-        <Switch
+        <ToggleButton
+            style="?android:buttonStyleToggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textOff="@string/register"
             android:textOn="@string/login"
-            android:showText="true"
             android:id="@+id/swLoginReg"
             android:layout_gravity="center_horizontal"/>
 

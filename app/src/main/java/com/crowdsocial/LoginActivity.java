@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.crowdsocial.activity.EventListActivity;
 import com.crowdsocial.util.ParseUserUtil;
@@ -22,7 +22,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Switch swLoginReg;
+    private ToggleButton swLoginReg;
     private EditText etEmail;
     private EditText etPassword;
     private Button btLoginReg;
@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
         );
 
-        swLoginReg = (Switch) findViewById(R.id.swLoginReg);
+        swLoginReg = (ToggleButton) findViewById(R.id.swLoginReg);
         swLoginReg.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

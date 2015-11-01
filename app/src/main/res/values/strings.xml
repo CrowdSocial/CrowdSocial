@@ -3,7 +3,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_event_detail">EventDetailActivity</string>
-    <string name="i_am_in">I am In!</string>
+    <string name="i_am_in">I AM IN!</string>
     <string name="when">When</string>
     <string name="where">Where</string>
     <string name="committed">Committed</string>
