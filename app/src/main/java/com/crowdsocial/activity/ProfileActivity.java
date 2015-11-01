@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.crowdsocial.LoginActivity;
 import com.crowdsocial.R;
 import com.crowdsocial.util.GravatarUtil;
 import com.crowdsocial.util.ParseUserUtil;
@@ -33,7 +34,7 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ParseUserUtil.logoutUser();
-                Intent i = new Intent(ProfileActivity.this, EventListActivity.class);
+                Intent i = new Intent(ProfileActivity.this, LoginActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
                 finish();

@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import com.astuetz.PagerSlidingTabStrip;
 import com.crowdsocial.R;
 import com.crowdsocial.fragment.EventListFragmentPagerAdapter;
+import com.crowdsocial.util.ParseUserUtil;
 
 public class EventListActivity extends BaseActivity {
 
@@ -14,6 +15,11 @@ public class EventListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_list);
+
+        if(!ParseUserUtil.isUserLoggedIn()) {
+            startLoginActivity();
+            return;
+        }
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);

@@ -2,18 +2,18 @@ package com.crowdsocial.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.crowdsocial.LoginActivity;
 import com.crowdsocial.R;
-import com.crowdsocial.dialog.LoginRegisterDialogFragment;
 import com.crowdsocial.util.ParseUserUtil;
 import com.parse.ParseUser;
 
-public class BaseActivity extends AppCompatActivity implements
-        LoginRegisterDialogFragment.LoginRegisterDialogListener {
+public class BaseActivity extends AppCompatActivity {
+
+    public static final int LOGIN_REQUEST_CODE = 12232;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +35,15 @@ public class BaseActivity extends AppCompatActivity implements
             startActivity(i);
             overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
         } else {
-            showLoginRegisterDialog();
+            startLoginActivity();
         }
     }
 
-    private void showLoginRegisterDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        LoginRegisterDialogFragment dialog = LoginRegisterDialogFragment.newInstance();
-        dialog.show(fm, "login_register_fragment");
-    }
-
-    public void onFinishLoginRegisterDialog() {
-        reloadActivity();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == LOGIN_REQUEST_CODE) {
+            reloadActivity();
+        }
     }
 
     //force activity refresh on login to retrieve user events
@@ -61,7 +58,12 @@ public class BaseActivity extends AppCompatActivity implements
             startActivity(i);
             overridePendingTransition(R.anim.slide_up, R.anim.hold);
         } else {
-            showLoginRegisterDialog();
+            startLoginActivity();
         }
+    }
+
+    protected void startLoginActivity() {
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivityForResult(i, LOGIN_REQUEST_CODE);
     }
 }
