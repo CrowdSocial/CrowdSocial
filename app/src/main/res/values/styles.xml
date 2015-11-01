@@ -20,10 +20,4 @@
 
     </style>
 
-    <style name="buttonStyle">
-        <item name="android:textColor">@drawable/btn_text_color</item>
-        <item name="android:background">@color/primary_dark</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
 </resources>
