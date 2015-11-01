@@ -7,13 +7,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/app_name"
         android:id="@+id/textView"
-        android:textStyle="bold"
+        android:textSize="46sp"
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
-        android:textColor="#e6634531"/>
+        fontPath="fonts/AMAZI.TTF"
+        android:textColor="#4c8619"/>
 
     <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -36,6 +36,8 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:hint="@string/email"
+            android:textColorHint="#aaffffff"
+            android:textColor="#FFFFFF"
             android:ems="10"
             android:id="@+id/etEmail"/>
 
@@ -45,6 +47,8 @@
             android:inputType="textPassword"
             android:ems="10"
             android:hint="@string/password"
+            android:textColorHint="#aaffffff"
+            android:textColor="#FFFFFF"
             android:id="@+id/etPassword"
             android:layout_gravity="center_horizontal"/>
 
