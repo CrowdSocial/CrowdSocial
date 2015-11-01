@@ -170,7 +170,7 @@ public class CreateEventActivity extends BaseActivity implements
 
         if(!isValidEvent()) {
             Toast.makeText(CreateEventActivity.this,
-                    "Please enter valid Event details", Toast.LENGTH_SHORT).show();
+                    R.string.enter_valid_event_details, Toast.LENGTH_SHORT).show();
             return;
         }
 

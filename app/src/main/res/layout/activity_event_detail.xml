@@ -24,7 +24,8 @@
             android:id="@+id/rlParticipate"
             android:layout_alignParentStart="true">
             <Button
-                style="@style/buttonStyle"
+                style="?android:buttonStyle"
+                android:textColor="#FFFFFF"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="@string/i_am_in"

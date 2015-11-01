@@ -220,8 +220,10 @@ public class EventDetailActivity extends BaseActivity implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap map) {
         LatLng latLng = getLocationFromAddress(eventAddress);
-        map.addMarker(new MarkerOptions().position(latLng).title(eventAddress));
-        map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        if(latLng != null) {
+            map.addMarker(new MarkerOptions().position(latLng).title(eventAddress));
+            map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        }
     }
 
     @Override

@@ -2,6 +2,9 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             android:paddingBottom="@dimen/activity_horizontal_margin"
+             android:paddingLeft="@dimen/activity_horizontal_margin"
+             android:paddingRight="@dimen/activity_horizontal_margin"
              tools:context="com.crowdsocial.fragment.FinalFragment">
 
     <ListView
@@ -10,25 +13,31 @@
         android:id="@+id/lvContacts"
         android:listSelector="@android:color/darker_gray"
         android:layout_alignParentTop="true"
+        android:layout_above="@+id/btCreateEvent"
         android:layout_alignParentStart="true"/>
 
     <Button
+        style="?android:buttonStyle"
+        android:textColor="#FFFFFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/previous"
         android:id="@+id/btnBack"
         android:onClick="previousStep"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_marginTop="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true" />
 
     <Button
+        style="?android:buttonStyle"
+        android:textColor="#FFFFFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/create_event"
         android:id="@+id/btCreateEvent"
         android:onClick="createEvent"
-        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp"
         android:layout_alignParentEnd="true"
-        android:layout_gravity="right|bottom"/>
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

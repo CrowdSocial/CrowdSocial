@@ -2,15 +2,9 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.crowdsocial.activity.ProfileActivity">
-      <item android:id="@+id/action_account"
-            android:title="@string/action_account"
-            android:icon="@drawable/ic_account"
-            android:orderInCategory="100"
-            android:onClick="onProfileClick"
-            app:showAsAction="ifRoom"/>
       <item android:id="@+id/action_create"
             android:title="@string/create_event"
-            android:icon="@drawable/ic_create_event"
+            android:icon="@mipmap/ic_create_event"
             android:onClick="onCreateEventClick"
             android:orderInCategory="100"
             app:showAsAction="ifRoom"/>

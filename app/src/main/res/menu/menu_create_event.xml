@@ -4,7 +4,7 @@
       tools:context="com.crowdsocial.activity.CreateEventActivity">
       <item android:id="@+id/action_account"
             android:title="@string/action_account"
-            android:icon="@drawable/ic_account"
+            android:icon="@mipmap/ic_account"
             android:orderInCategory="100"
             android:onClick="onProfileClick"
             app:showAsAction="ifRoom"/>
