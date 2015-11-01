@@ -59,6 +59,8 @@
             android:layout_below="@+id/etDate" />
 
         <Button
+            style="?android:buttonStyle"
+            android:textColor="#FFFFFF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/next"
