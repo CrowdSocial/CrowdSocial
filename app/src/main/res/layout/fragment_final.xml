@@ -21,23 +21,11 @@
         android:textColor="#FFFFFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/previous"
-        android:id="@+id/btnBack"
-        android:onClick="previousStep"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true" />
-
-    <Button
-        style="?android:buttonStyle"
-        android:textColor="#FFFFFF"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/create_event"
         android:id="@+id/btCreateEvent"
         android:onClick="createEvent"
         android:layout_marginTop="20dp"
-        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true" />
 
 </RelativeLayout>
