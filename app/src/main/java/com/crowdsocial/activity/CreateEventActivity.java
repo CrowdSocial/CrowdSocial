@@ -21,8 +21,6 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crowdsocial.R;
@@ -46,7 +44,8 @@ import java.util.Date;
 import java.util.HashSet;
 
 public class CreateEventActivity extends BaseActivity implements
-        FinalFragment.OnContactSelectedListener {
+        FinalFragment.OnContactSelectedListener,
+        Step1Fragment.OnEventDateClickListener, Step1Fragment.OnCameraClick {
 
     ViewPager viewPager;
     EventCreateStepsPagerAdapter pagerAdapter;
@@ -64,12 +63,34 @@ public class CreateEventActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().setTitle(getString(R.string.create_event));
+
         setContentView(R.layout.activity_create_event);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         invitees = new ArrayList<>();
         pagerAdapter =
                 new EventCreateStepsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 0) {
+                    getSupportActionBar().setTitle(getString(R.string.create_event));
+                } else {
+                    getSupportActionBar().setTitle(getString(R.string.add_invitees));
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         viewPager.setOffscreenPageLimit(2);
     }
 
@@ -78,6 +99,13 @@ public class CreateEventActivity extends BaseActivity implements
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_create_event, menu);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        overridePendingTransition(R.anim.hold, R.anim.slide_down);
     }
 
     @Override
@@ -114,7 +142,8 @@ public class CreateEventActivity extends BaseActivity implements
         }
     }
 
-    public void setEventDate(View view) {
+    @Override
+    public void OnEventDateClick() {
         Calendar c = Calendar.getInstance();
         DatePickerDialog datePickerDialog =
                 new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -128,7 +157,7 @@ public class CreateEventActivity extends BaseActivity implements
 
                 eventDate = c.getTime();
 
-                TextView tv = (TextView) findViewById(R.id.tvDate);
+                EditText tv = (EditText) findViewById(R.id.etDate);
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
                 tv.setText(dateFormat.format(eventDate));
@@ -145,7 +174,6 @@ public class CreateEventActivity extends BaseActivity implements
             return;
         }
 
-        Spinner spTheme = (Spinner) findViewById(R.id.spTheme);
         EditText etEventTitle = (EditText) findViewById(R.id.etEventTitle);
         EditText etDescription = (EditText) findViewById(R.id.etDescription);
         EditText etAddress = (EditText) findViewById(R.id.etAddress);
@@ -157,7 +185,6 @@ public class CreateEventActivity extends BaseActivity implements
         event.setParticipationAmount(Integer.valueOf(etAmount.getText().toString()));
         event.setDescription(etDescription.getText().toString());
         event.setLocation(etAddress.getText().toString());
-        event.setTheme(spTheme.getSelectedItem().toString());
         event.setTitle(etEventTitle.getText().toString());
         event.setEventDate(eventDate);
         if(eventImageUrl != null) {
@@ -200,14 +227,11 @@ public class CreateEventActivity extends BaseActivity implements
     }
 
     private boolean isValidEvent() {
-        Spinner spTheme = (Spinner) findViewById(R.id.spTheme);
         EditText etEventTitle = (EditText) findViewById(R.id.etEventTitle);
         EditText etDescription = (EditText) findViewById(R.id.etDescription);
         EditText etAddress = (EditText) findViewById(R.id.etAddress);
         EditText etAmount = (EditText) findViewById(R.id.etAmount);
 
-        if(spTheme.getSelectedItem() == null)
-            return false;
         if(TextUtils.isEmpty(etEventTitle.getText().toString()))
             return false;
         if(TextUtils.isEmpty(etAddress.getText().toString()))
@@ -264,7 +288,8 @@ public class CreateEventActivity extends BaseActivity implements
         }
     }
 
-    public void onLaunchCamera(View view) {
+    @Override
+    public void onLaunchCamera() {
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri(eventImageFileName)); // set the image file name

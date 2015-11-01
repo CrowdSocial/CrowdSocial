@@ -4,23 +4,15 @@
              android:layout_height="match_parent"
              tools:context="com.crowdsocial.fragment.FinalFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_contacts_to_invite"
-        android:id="@+id/tvContacts"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"/>
-
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lvContacts"
         android:listSelector="@android:color/darker_gray"
-        android:layout_below="@+id/tvContacts"/>
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"/>
 
     <Button
-        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/previous"
@@ -30,7 +22,6 @@
         android:layout_alignParentStart="true"/>
 
     <Button
-        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/create_event"

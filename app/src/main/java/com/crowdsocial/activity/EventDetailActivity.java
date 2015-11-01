@@ -197,6 +197,13 @@ public class EventDetailActivity extends BaseActivity implements OnMapReadyCallb
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        overridePendingTransition(R.anim.hold, R.anim.slide_out_right);
+    }
+
     private void initilizeMap(String address) {
         if(address != null) {
             try {

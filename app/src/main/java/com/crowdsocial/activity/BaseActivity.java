@@ -33,6 +33,7 @@ public class BaseActivity extends AppCompatActivity implements
             ParseUser parseUser = ParseUserUtil.getLoggedInUser();
             i.putExtra("email", parseUser.getEmail());
             startActivity(i);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.hold);
         } else {
             showLoginRegisterDialog();
         }
@@ -58,6 +59,7 @@ public class BaseActivity extends AppCompatActivity implements
         if(ParseUserUtil.isUserLoggedIn()) {
             Intent i = new Intent(this, CreateEventActivity.class);
             startActivity(i);
+            overridePendingTransition(R.anim.slide_up, R.anim.hold);
         } else {
             showLoginRegisterDialog();
         }
