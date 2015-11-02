@@ -3,8 +3,10 @@ package com.crowdsocial.activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
+import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -37,6 +39,7 @@ public class EventListActivity extends BaseActivity {
                 new CalligraphyTypefaceSpan(
                         TypefaceUtils.load(getAssets(), "fonts/Lobster_1.3.otf"));
         sBuilder.setSpan(typefaceSpan, 0, 11, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        sBuilder.setSpan(new AbsoluteSizeSpan(70), 0, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         getSupportActionBar().setTitle(sBuilder);
 
