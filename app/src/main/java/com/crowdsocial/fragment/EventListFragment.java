@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.crowdsocial.R;
 import com.crowdsocial.activity.EventDetailActivity;
@@ -20,6 +21,8 @@ import java.util.List;
 
 public class EventListFragment extends Fragment {
 
+    ProgressBar pbLoading;
+
     private ArrayList<Event> events = new ArrayList<>();
     private EventArrayAdapter aEvents;
     private RecyclerView rvEvents;
@@ -27,7 +30,6 @@ public class EventListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         aEvents = new EventArrayAdapter(events);
     }
 
@@ -38,6 +40,7 @@ public class EventListFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event, container, false);
 
+        pbLoading = (ProgressBar) view.findViewById(R.id.pbLoading);
         rvEvents = (RecyclerView) view.findViewById(R.id.rvEvents);
         rvEvents.setAdapter(aEvents);
 

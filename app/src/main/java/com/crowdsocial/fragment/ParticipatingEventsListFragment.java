@@ -1,6 +1,7 @@
 package com.crowdsocial.fragment;
 
 import android.os.Bundle;
+import android.widget.ProgressBar;
 
 import com.crowdsocial.model.Event;
 import com.crowdsocial.model.Invitee;
@@ -34,9 +35,11 @@ public class ParticipatingEventsListFragment extends EventListFragment {
         ParseQuery<Invitee> query = ParseQuery.getQuery(Invitee.class);
         query.whereEqualTo("accepted", true);
         query.whereEqualTo("email", ParseUserUtil.getLoggedInUser().getEmail());
+        pbLoading.setVisibility(ProgressBar.INVISIBLE);
         query.findInBackground(new FindCallback<Invitee>() {
             @Override
             public void done(List<Invitee> objects, ParseException e) {
+                pbLoading.setVisibility(ProgressBar.INVISIBLE);
                 if (e != null) {
                     ParseErrorHandler.handleError(e);
                 } else {

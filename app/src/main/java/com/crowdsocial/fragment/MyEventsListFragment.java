@@ -1,6 +1,7 @@
 package com.crowdsocial.fragment;
 
 import android.os.Bundle;
+import android.widget.ProgressBar;
 
 import com.crowdsocial.model.Event;
 import com.crowdsocial.util.ParseErrorHandler;
@@ -30,15 +31,16 @@ public class MyEventsListFragment extends EventListFragment {
         }
     }
 
-
     private void populateUserEvents() {
         // Find all events by the current user
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
         query.whereEqualTo("user", ParseUserUtil.getLoggedInUser());
         query.orderByAscending("eventDate");
+        pbLoading.setVisibility(ProgressBar.VISIBLE);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
+                pbLoading.setVisibility(ProgressBar.INVISIBLE);
                 if(e != null) {
                     e.printStackTrace();
                     ParseErrorHandler.handleError(e);
