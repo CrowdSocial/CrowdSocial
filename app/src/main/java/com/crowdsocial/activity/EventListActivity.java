@@ -3,6 +3,8 @@ package com.crowdsocial.activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -10,6 +12,9 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.crowdsocial.R;
 import com.crowdsocial.fragment.EventListFragmentPagerAdapter;
 import com.crowdsocial.util.ParseUserUtil;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyTypefaceSpan;
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class EventListActivity extends BaseActivity {
 
@@ -24,6 +29,16 @@ public class EventListActivity extends BaseActivity {
             startLoginActivity();
             return;
         }
+
+
+        SpannableStringBuilder sBuilder = new SpannableStringBuilder();
+        sBuilder.append(getString(R.string.app_name));
+        CalligraphyTypefaceSpan typefaceSpan =
+                new CalligraphyTypefaceSpan(
+                        TypefaceUtils.load(getAssets(), "fonts/Lobster_1.3.otf"));
+        sBuilder.setSpan(typefaceSpan, 0, 11, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        getSupportActionBar().setTitle(sBuilder);
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
