@@ -10,16 +10,18 @@
         android:focusable="false"
         android:id="@+id/ivProfileImage"/>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/ivProfileImage"
         android:layout_marginStart="10dp"
         android:focusable="false"
+        android:orientation="vertical"
         android:id="@+id/rlContact">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <CheckedTextView
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textColor="@color/secondary_text"
@@ -27,13 +29,12 @@
             android:id="@+id/tvName"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvName"
             android:textColor="@color/secondary_text"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/tvEmail"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>
