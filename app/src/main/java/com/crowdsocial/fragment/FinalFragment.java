@@ -31,6 +31,8 @@ public class FinalFragment extends Fragment {
         public void onContactSelected(String email, String name);
     }
 
+    private static final String SELECTION = ContactsContract.Contacts.PHOTO_URI + " IS NOT NULL ";
+
     private ContactsAdapter contactsAdapter;
     public static final int CONTACT_LOADER_ID = 78;
     private SparseBooleanArray checkedContacts;
@@ -50,9 +52,9 @@ public class FinalFragment extends Fragment {
                 return new CursorLoader(FinalFragment.this.getContext(),
                         ContactsContract.CommonDataKinds.Email.CONTENT_URI, // URI
                         projectionFields, // projection fields
-                        null, // the selection criteria
+                        SELECTION, // the selection criteria
                         null, // the selection args
-                        null // the sort order
+                        ContactsContract.Contacts.DISPLAY_NAME + " ASC" // the sort order
                 );
             }
 
